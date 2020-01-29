@@ -1,0 +1,48 @@
+datapath  = strcat('/projectnb/npbssmic/ns/Jiarui/0126volume/');
+addpath('/projectnb/npbssmic/ns/Jiarui/code');
+cd(datapath);
+
+filename0=dir('RAW-*-121-*.dat');
+for iFile=1:length(filename0)
+    %% add MATLAB functions' path
+    %addpath('D:\PROJ - OCT\CODE-BU\Functions') % Path on JTOPTICS
+    % addpath('/projectnb/npboctiv/ns/Jianbo/OCT/CODE/BU-SCC/Functions') % Path on SCC server
+    %% get data information
+    [dim, fNameBase,fIndex]=GetNameInfoRaw(filename0(iFile).name);
+    nk = dim(3); nxRpt = dim(4); nx=dim(5); nyRpt = 1; ny = 400;
+    dim=[nk nxRpt nx nyRpt ny];
+    nz0 = round(nk/2);
+    Nx=nxRpt*nx*nyRpt;
+    dt = 1/47e3;
+    %% File numbers
+    Num_file=1;  % number of file
+    Nspec=1;
+
+    data_k_ispec=zeros(nk,Nx,ny);
+    RR_original=zeros(nz0,Nx,ny);
+%% Angiogram calculation 
+%%%%%%% used for calculating multiple subspectrum, eg. Nspec=[1 2 3 4 8]. set to 1 if calculating only one Nsepc, eg. Nspec=4. 
+    Num_pixel=floor(nk/Nspec); % number of pixels for each sub spectrum
+    ifilePath=[datapath,filename0(iFile).name];
+    disp(['Start loading file ', datestr(now,'DD:HH:MM')]);
+    [data_ori] = ReadDat_int16(ifilePath, dim); % read raw data: nk_Nx_ny,Nx=nt*nx
+    disp(['Raw_Lamda data of file. ', ' Calculating RR ... ',datestr(now,'DD:HH:MM')]);
+    data=Dat2RR(data_ori,-0.22);
+    dat=abs(data(:,:,:));
+    
+    % sensitivity roll-off compensation
+    dat=rolloff_corr(dat,2.3);
+    % surface finding
+    slice=10*log10(dat(61:110,:,:));
+    C=strsplit(filename0(iFile).name,'-');
+    slice_index=C{2};
+    
+    % crop the depth of the image
+    matname=strcat('/projectnb/npbssmic/ns/Jiarui/0126volume/volume/ROI2_',slice_index,'.mat');
+    save(matname,'slice');
+    
+    % save the average A-line
+%     avg=squeeze(mean(mean(slice,2),3));
+%     save('avg.mat','avg');
+    
+end
