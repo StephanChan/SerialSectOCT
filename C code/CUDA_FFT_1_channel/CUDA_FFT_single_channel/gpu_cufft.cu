@@ -137,7 +137,7 @@ void single_channel_process(uint16_t *h_signal, data_t *h_processed_signal, int 
     data_t k0,k1,dk,kc;
     data_t   *d_processed;
     uint16_t *d_dataA;
-    dispersion = (data_t *) malloc(sizeof(data_t) * 1440 * 2);
+    dispersion = (data_t *) malloc(sizeof(data_t) * SAMPLES * 2);
     //init dispersion compensation array
 	k0 = 2 * PI / 1363 ;
 	k1 = 2 * PI / 1227 ;
@@ -193,7 +193,7 @@ void single_channel_process(uint16_t *h_signal, data_t *h_processed_signal, int 
 	checkCudaErrors(
             cudaMemcpy(d_dataA, h_signal, (long long int)NALINES * size1 * sizeof(uint16_t) * SAMPLES*1, cudaMemcpyHostToDevice));
 	
-	checkCudaErrors(cudaMemcpy(d_dispersion, dispersion, sizeof(data_t) * 2048 * 2, cudaMemcpyHostToDevice));
+	checkCudaErrors(cudaMemcpy(d_dispersion, dispersion, sizeof(data_t) * SAMPLES * 2, cudaMemcpyHostToDevice));
 	checkCudaErrors(cudaMemcpy(d_hann, hann, sizeof(data_t) * SAMPLES, cudaMemcpyHostToDevice));
    //// cudaEventRecord(stop_mempyHD, 0);
    // cudaEventSynchronize(stop_mempyHD);
@@ -308,7 +308,7 @@ static __global__ void copy_data(long long int length_fft_data, int part, data_t
 	long long int i;
 	for (i = threadID; i < length_fft_data; i += numThreads) {
 		long long int k = (i % 1440) * 2 + long long int(i / 1440) * 4096;
-	    FFT_buffer[k] = d_signal[i + (long long int)part*length_fft_data]*hann[i%1440]*0.8/65535-0.4;
+	    FFT_buffer[k] = (d_signal[i + (long long int)part*length_fft_data]*0.8/65535-0.4)*hann[i % 1440];
 		//cuPrintf("FFT_buffer %d is %f\n", i + (long long int)part*length_fft_data, FFT_buffer[k]);
 	}
 	

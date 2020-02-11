@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
 	else
 		printf("open file failed\n");
 		*/
-	
+	/*
 	fp = fopen("GPU_h_processed.txt", "w");
 	if (fp != NULL) {
 		for (i = 0; i < NALINES * DEPTH * NBLINES*2; i+=2)
@@ -89,7 +89,7 @@ int main(int argc, char **argv) {
 	}
 	else
 		printf("open file failed\n");
-		
+		*/
 return 0;
 }
 
@@ -280,7 +280,7 @@ static __global__ void copy_data(long long int length_fft_data, int part, data_t
 	long long int i;
 	for (i = threadID; i < length_fft_data; i += numThreads) {
 		long long int k = (i % 1440) * 2 + long long int(i / 1440) * 4096;
-	    FFT_buffer[k] = d_signal[i + (long long int)part*length_fft_data]*hann[i%1440]*0.8/65535-0.4;
+	    FFT_buffer[k] = (d_signal[i + (long long int)part*length_fft_data]*0.8/65535-0.4)*hann[i % 1440];
 		//cuPrintf("FFT_buffer %d is %f\n", i + (long long int)part*length_fft_data, FFT_buffer[k]);
 	}
 	
