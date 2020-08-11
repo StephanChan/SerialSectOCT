@@ -8993,6 +8993,26 @@
 				<Item Name="Shutter" Type="Folder">
 					<Item Name="Mechanical Shutter Module.vi" Type="VI" URL="../Hardware Mfg/Shutter/Mechanical Shutter Module.vi"/>
 				</Item>
+				<Item Name="Thorlabs Cage Rotation" Type="Folder">
+					<Item Name="Cage controller.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage controller.vi"/>
+					<Item Name="cage manager.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/cage manager.vi"/>
+					<Item Name="cage rotator.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/cage rotator.vi"/>
+					<Item Name="Cage-connect.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-connect.vi"/>
+					<Item Name="Cage-get-acceleration.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-get-acceleration.vi"/>
+					<Item Name="Cage-get-connect.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-get-connect.vi"/>
+					<Item Name="Cage-get-enable.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-get-enable.vi"/>
+					<Item Name="Cage-get-position.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-get-position.vi"/>
+					<Item Name="Cage-get-velocity.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-get-velocity.vi"/>
+					<Item Name="Cage-home.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-home.vi"/>
+					<Item Name="Cage-set-acceleration.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-set-acceleration.vi"/>
+					<Item Name="cage-set-enable.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/cage-set-enable.vi"/>
+					<Item Name="Cage-set-position.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-set-position.vi"/>
+					<Item Name="Cage-set-velocity.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-set-velocity.vi"/>
+					<Item Name="Cage-stop.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-stop.vi"/>
+					<Item Name="Cage-uninit.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-uninit.vi"/>
+					<Item Name="refnum control.ctl" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/refnum control.ctl"/>
+					<Item Name="refnum variable.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/refnum variable.vi"/>
+				</Item>
 				<Item Name="Thorlabs OCT" Type="Folder">
 					<Item Name="Controls" Type="Folder">
 						<Item Name="Thorlabs OCT control.ctl" Type="VI" URL="../Hardware Mfg/Thorlabs OCT/Controls/Thorlabs OCT control.ctl"/>
@@ -9847,25 +9867,10 @@
 			<Item Name="ThorlabsDefaultSettings.xml" Type="Document" URL="../ThorlabsDefaultSettings.xml"/>
 			<Item Name="Xceed.Wpf.Toolkit.dll" Type="Document" URL="../Xceed.Wpf.Toolkit.dll"/>
 		</Item>
-		<Item Name="Cage controller.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage controller.vi"/>
-		<Item Name="cage manager.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/cage manager.vi"/>
-		<Item Name="cage rotator.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/cage rotator.vi"/>
-		<Item Name="Cage-get-acceleration.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-get-acceleration.vi"/>
-		<Item Name="Cage-get-connect.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-get-connect.vi"/>
-		<Item Name="Cage-get-enable.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-get-enable.vi"/>
-		<Item Name="Cage-get-position.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-get-position.vi"/>
-		<Item Name="Cage-get-velocity.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-get-velocity.vi"/>
-		<Item Name="Cage-home.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-home.vi"/>
-		<Item Name="Cage-set-acceleration.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-set-acceleration.vi"/>
-		<Item Name="cage-set-enable.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/cage-set-enable.vi"/>
-		<Item Name="Cage-set-position.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-set-position.vi"/>
-		<Item Name="Cage-set-velocity.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-set-velocity.vi"/>
-		<Item Name="Cage-stop.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-stop.vi"/>
-		<Item Name="Cage-uninit.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-uninit.vi"/>
+		<Item Name="Power-HWP test.vi" Type="VI" URL="../Test Code/Power-HWP test.vi"/>
 		<Item Name="Test Reshape to 1D Array.vi" Type="VI" URL="../Test Code/Test Reshape to 1D Array.vi"/>
 		<Item Name="Test Save 2D array.vi" Type="VI" URL="../Test Code/Test Save 2D array.vi"/>
 		<Item Name="Test single channel GPU FFT.vi" Type="VI" URL="../Test Code/Test single channel GPU FFT.vi"/>
-		<Item Name="test2.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/test2.vi"/>
 		<Item Name="Test_init_memory.vi" Type="VI" URL="../Test Code/Test_init_memory.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
@@ -10214,13 +10219,13 @@
 			<Item Name="ATSApi.dll" Type="Document" URL="ATSApi.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
-			<Item Name="Cage-connect.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-connect.vi"/>
 			<Item Name="Init_PM.vi" Type="VI" URL="../Hardware Mfg/Power meter/Private/Init_PM.vi"/>
 			<Item Name="kernel32.dll" Type="Document" URL="kernel32.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
 			<Item Name="lvanlys.dll" Type="Document" URL="/&lt;resource&gt;/lvanlys.dll"/>
 			<Item Name="Measure-Power_PM.vi" Type="VI" URL="../Hardware Mfg/Power meter/Private/Measure-Power_PM.vi"/>
+			<Item Name="Motion Translation Module Control2.ctl" Type="VI" URL="../Hardware Mfg/Thorlabs Translation Stages/Controls/Motion Translation Module Control2.ctl"/>
 			<Item Name="nilvaiu.dll" Type="Document" URL="nilvaiu.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
