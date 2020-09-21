@@ -9871,6 +9871,7 @@
 		<Item Name="Test Reshape to 1D Array.vi" Type="VI" URL="../Test Code/Test Reshape to 1D Array.vi"/>
 		<Item Name="Test Save 2D array.vi" Type="VI" URL="../Test Code/Test Save 2D array.vi"/>
 		<Item Name="Test single channel GPU FFT.vi" Type="VI" URL="../Test Code/Test single channel GPU FFT.vi"/>
+		<Item Name="Test vibratome3.vi" Type="VI" URL="../Test Code/Test vibratome3.vi"/>
 		<Item Name="Test_init_memory.vi" Type="VI" URL="../Test Code/Test_init_memory.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
@@ -10263,7 +10264,7 @@
 				<Property Name="Bld_localDestDirType" Type="Str">relativeToCommon</Property>
 				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{9621E17C-FB12-43F2-AF63-96A1D7874786}</Property>
-				<Property Name="Bld_version.build" Type="Int">6</Property>
+				<Property Name="Bld_version.build" Type="Int">7</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">mainGUI.exe</Property>
 				<Property Name="Destination[0].path" Type="Path">../builds/NI_AB_PROJECTNAME/mainGUI/mainGUI.exe</Property>
