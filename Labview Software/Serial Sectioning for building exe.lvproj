@@ -9630,6 +9630,7 @@
 				<Item Name="Galvo waveform check.vi" Type="VI" URL="../Test Code/Galvo waveform check.vi"/>
 				<Item Name="KnifeEdgeTestClt.ctl" Type="VI" URL="../Test Code/KnifeEdgeTestClt.ctl"/>
 				<Item Name="KnifeEdgeTestCode.vi" Type="VI" URL="../Test Code/KnifeEdgeTestCode.vi"/>
+				<Item Name="Power-HWP test.vi" Type="VI" URL="../Test Code/Power-HWP test.vi"/>
 				<Item Name="Test Code - Generating Y Clock Signal.vi" Type="VI" URL="../Test Code/Test Code - Generating Y Clock Signal.vi"/>
 				<Item Name="Test Data Trimming.vi" Type="VI" URL="../Test Code/Test Data Trimming.vi"/>
 				<Item Name="Test dispersion compensation.vi" Type="VI" URL="../Test Code/Test dispersion compensation.vi"/>
@@ -9639,8 +9640,11 @@
 				<Item Name="Test GPU FFT.vi" Type="VI" URL="../Test Code/Test GPU FFT.vi"/>
 				<Item Name="Test GUI Loader.vi" Type="VI" URL="../Test Code/Test GUI Loader.vi"/>
 				<Item Name="Test Thorlabs Module.vi" Type="VI" URL="../Test Code/Test Thorlabs Module.vi"/>
+				<Item Name="Test vib3.vi" Type="VI" URL="../Test Code/Test vib3.vi"/>
+				<Item Name="Test vibratome3.vi" Type="VI" URL="../Test Code/Test vibratome3.vi"/>
 				<Item Name="Test XYZ Table Stage Module All Axis.vi" Type="VI" URL="../Test Code/Test XYZ Table Stage Module All Axis.vi"/>
 				<Item Name="Test XYZ Table Stage Module.vi" Type="VI" URL="../Test Code/Test XYZ Table Stage Module.vi"/>
+				<Item Name="Test_init_memory.vi" Type="VI" URL="../Test Code/Test_init_memory.vi"/>
 				<Item Name="TestCode - Writing Galvo Voltages.vi" Type="VI" URL="../Test Code/TestCode - Writing Galvo Voltages.vi"/>
 				<Item Name="Writing X Galvo Voltages.vi" Type="VI" URL="../Test Code/Writing X Galvo Voltages.vi"/>
 				<Item Name="ZstageConnectTest.vi" Type="VI" URL="../Test Code/ZstageConnectTest.vi"/>
@@ -9867,12 +9871,6 @@
 			<Item Name="ThorlabsDefaultSettings.xml" Type="Document" URL="../ThorlabsDefaultSettings.xml"/>
 			<Item Name="Xceed.Wpf.Toolkit.dll" Type="Document" URL="../Xceed.Wpf.Toolkit.dll"/>
 		</Item>
-		<Item Name="Power-HWP test.vi" Type="VI" URL="../Test Code/Power-HWP test.vi"/>
-		<Item Name="Test Reshape to 1D Array.vi" Type="VI" URL="../Test Code/Test Reshape to 1D Array.vi"/>
-		<Item Name="Test Save 2D array.vi" Type="VI" URL="../Test Code/Test Save 2D array.vi"/>
-		<Item Name="Test single channel GPU FFT.vi" Type="VI" URL="../Test Code/Test single channel GPU FFT.vi"/>
-		<Item Name="Test vibratome3.vi" Type="VI" URL="../Test Code/Test vibratome3.vi"/>
-		<Item Name="Test_init_memory.vi" Type="VI" URL="../Test Code/Test_init_memory.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
 				<Item Name="3D Plot Datatype.lvclass" Type="LVClass" URL="/&lt;vilib&gt;/Math Plots/3D Math Plots/3D Plot/3D Plot Datatype/3D Plot Datatype.lvclass"/>
@@ -10264,7 +10262,7 @@
 				<Property Name="Bld_localDestDirType" Type="Str">relativeToCommon</Property>
 				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{9621E17C-FB12-43F2-AF63-96A1D7874786}</Property>
-				<Property Name="Bld_version.build" Type="Int">7</Property>
+				<Property Name="Bld_version.build" Type="Int">9</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">mainGUI.exe</Property>
 				<Property Name="Destination[0].path" Type="Path">../builds/NI_AB_PROJECTNAME/mainGUI/mainGUI.exe</Property>
