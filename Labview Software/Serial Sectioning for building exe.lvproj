@@ -15,7 +15,7 @@
 				<Item Name="ATSApi.dll" Type="Document" URL="../DLL/ATSApi.dll"/>
 				<Item Name="CUDA_FFT_2_channel.dll" Type="Document" URL="../DLL/CUDA_FFT_2_channel.dll"/>
 				<Item Name="CUDA_FFT_2_channel_ref_ret.dll" Type="Document" URL="../DLL/CUDA_FFT_2_channel_ref_ret.dll"/>
-				<Item Name="CUDA_FFT_2_channel_ref_ret_fast.dll" Type="Document" URL="../DLL/CUDA_FFT_2_channel_ref_ret_fast.dll"/>
+				<Item Name="CUDA_FFT_2_channel_ref_ret_fast2.dll" Type="Document" URL="../DLL/CUDA_FFT_2_channel_ref_ret_fast2.dll"/>
 				<Item Name="CUDA_FFT_single_channel.dll" Type="Document" URL="../DLL/CUDA_FFT_single_channel.dll"/>
 				<Item Name="CUDA_FFT_single_channel_Amp_Phase.dll" Type="Document" URL="../DLL/CUDA_FFT_single_channel_Amp_Phase.dll"/>
 				<Item Name="glew32.dll" Type="Document" URL="../DLL/glew32.dll"/>
@@ -9871,6 +9871,7 @@
 			<Item Name="ThorlabsDefaultSettings.xml" Type="Document" URL="../ThorlabsDefaultSettings.xml"/>
 			<Item Name="Xceed.Wpf.Toolkit.dll" Type="Document" URL="../Xceed.Wpf.Toolkit.dll"/>
 		</Item>
+		<Item Name="Test_ethernet_speed.vi" Type="VI" URL="../Test Code/Test_ethernet_speed.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
 				<Item Name="3D Plot Datatype.lvclass" Type="LVClass" URL="/&lt;vilib&gt;/Math Plots/3D Math Plots/3D Plot/3D Plot Datatype/3D Plot Datatype.lvclass"/>
@@ -10262,7 +10263,7 @@
 				<Property Name="Bld_localDestDirType" Type="Str">relativeToCommon</Property>
 				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{9621E17C-FB12-43F2-AF63-96A1D7874786}</Property>
-				<Property Name="Bld_version.build" Type="Int">9</Property>
+				<Property Name="Bld_version.build" Type="Int">10</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">mainGUI.exe</Property>
 				<Property Name="Destination[0].path" Type="Path">../builds/NI_AB_PROJECTNAME/mainGUI/mainGUI.exe</Property>
