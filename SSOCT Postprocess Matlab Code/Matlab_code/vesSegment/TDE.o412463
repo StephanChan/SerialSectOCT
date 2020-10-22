@@ -1,0 +1,21 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2019 The MathWorks, Inc.
+                  R2019b (9.7.0.1190202) 64-bit (glnxa64)
+                              August 21, 2019
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+{Error using imfinfo (line 142)
+Unable to open file
+"/projectnb2/npbssmic/ns/200726_PSOCT/dist_corrected/volume/volume_nor_invert.tif"
+for reading.
+
+Error in TIFF2MAT (line 5)
+    tiff_info = imfinfo(tiffname); % return tiff structure, one element per
+    image
+
+Error in vesSeg_script (line 10)
+vol=TIFF2MAT('/projectnb2/npbssmic/ns/200726_PSOCT/dist_corrected/volume/volume_nor_invert.tif');} 

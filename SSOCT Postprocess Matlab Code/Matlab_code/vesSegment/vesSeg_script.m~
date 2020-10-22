@@ -1,0 +1,16 @@
+%% batch job version of vessel segmentation
+% Jiarui Yang
+
+% add path
+addpath '/projectnb/npbssmic/s/Matlab_code/vesSegment';
+addpath '/projectnb/npbssmic/s/Matlab_code';
+
+% load volume
+vol=TIFF2MAT('/projectnb2/npbssmic/ns/200207_PSOCT/corrected/nii/volume_ori_inverted.tif');
+
+% multiscale vessel segmentation
+%vol=imresize3(vol,[size(vol,1) size(vol,2) size(vol,3)/5]);
+% vol=vol(:,:,331:end);
+[I_VE,I_seg]=fibSegment(double(vol),[1 2 3],0.16);
+MAT2TIFF(I_seg,'/projectnb2/npbssmic/ns/200903_PSOCT/dist_corrected/volume_ref/ref_seg.tif');
+% save('/projectnb2/npbssmic/ns/190619_Thorlabs/nii/I_VE.mat',I_VE);
