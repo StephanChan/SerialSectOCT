@@ -16,6 +16,7 @@
 				<Item Name="CUDA_FFT_2_channel.dll" Type="Document" URL="../DLL/CUDA_FFT_2_channel.dll"/>
 				<Item Name="CUDA_FFT_2_channel_ref_ret.dll" Type="Document" URL="../DLL/CUDA_FFT_2_channel_ref_ret.dll"/>
 				<Item Name="CUDA_FFT_2_channel_ref_ret_fast2.dll" Type="Document" URL="../DLL/CUDA_FFT_2_channel_ref_ret_fast2.dll"/>
+				<Item Name="CUDA_FFT_2_channel_save_all.dll" Type="Document" URL="../DLL/CUDA_FFT_2_channel_save_all.dll"/>
 				<Item Name="CUDA_FFT_single_channel.dll" Type="Document" URL="../DLL/CUDA_FFT_single_channel.dll"/>
 				<Item Name="CUDA_FFT_single_channel_Amp_Phase.dll" Type="Document" URL="../DLL/CUDA_FFT_single_channel_Amp_Phase.dll"/>
 				<Item Name="glew32.dll" Type="Document" URL="../DLL/glew32.dll"/>
@@ -10264,7 +10265,7 @@
 				<Property Name="Bld_localDestDirType" Type="Str">relativeToCommon</Property>
 				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{9621E17C-FB12-43F2-AF63-96A1D7874786}</Property>
-				<Property Name="Bld_version.build" Type="Int">15</Property>
+				<Property Name="Bld_version.build" Type="Int">18</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">mainGUI.exe</Property>
 				<Property Name="Destination[0].path" Type="Path">../builds/NI_AB_PROJECTNAME/mainGUI/mainGUI.exe</Property>
