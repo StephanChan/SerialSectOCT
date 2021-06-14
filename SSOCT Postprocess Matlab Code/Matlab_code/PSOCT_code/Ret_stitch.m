@@ -67,7 +67,7 @@ Xoverlap=mosaic(3);
 
 %% write coordinates to file
 
-filepath=strcat(datapath,'retardance/vol',num2str(islice),'/');
+filepath=strcat(datapath,'fitting/vol',num2str(islice),'/');
 % filepath=strcat(datapath,'I41SupFrontal_20170424/');
 cd(filepath);
 % fileID = fopen([filepath 'TileConfiguration.txt'],'w');
@@ -100,9 +100,9 @@ cd(filepath);
 
 % filename = filepath;
 % f=strcat(filename,'TileConfiguration.registered.txt');
-f=strcat(datapath,'aip/vol',num2str(id),'/TileConfiguration.registered.txt');
-coord = read_Fiji_coord(f,'aip');
-coord(2:3,:)=coord(2:3,:);%./10;
+f=strcat(datapath,'fitting/vol',num2str(id),'/TileConfiguration.registered.txt');
+coord = read_Fiji_coord(f,'us');
+coord(2:3,:)=coord(2:3,:);
 %% coordinates correction
 % use median corrdinates for all slices
 % coord=squeeze(median(coord,1));
@@ -160,7 +160,7 @@ for i=1:length(index)
         % load file and linear blend
 
 %         filename0=dir(strcat(num2str(in),'_ds.mat'));  %for retardance
-        filename0=dir(strcat(num2str(in),'.mat'));  %for retardance
+        filename0=dir(strcat('bfg-',num2str(islice),'-',num2str(in),'.mat'));  %for retardance
 %         filename0=dir(strcat(target,'-',num2str(islice),'-',num2str(in),'.mat'));
         load(filename0.name);
         
@@ -170,7 +170,7 @@ for i=1:length(index)
         Masque2(row,column)=ramp;
         Masque(row,column)=Masque(row,column)+Masque2(row,column);
         if strcmp(sys,'PSOCT')
-            Mosaic(row,column)=Mosaic(row,column)+ret_aip.*Masque2(row,column); %#################################change us to ub if for mub stitch 
+            Mosaic(row,column)=Mosaic(row,column)+bfg.*Masque2(row,column); %#################################change us to ub if for mub stitch 
         elseif strcmp(sys,'Thorlabs')
             Mosaic(row,column)=Mosaic(row,column)+ub'.*Masque2(row,column);%#################################
         end
@@ -186,7 +186,7 @@ MosaicFinal(isnan(MosaicFinal))=0;
     if strcmp(sys,'Thorlabs')
         MosaicFinal=MosaicFinal';
     end
-save(strcat(result,'.mat'),'MosaicFinal');
+% save(strcat(result,'.mat'),'MosaicFinal');
 
 % plot in original scale
 % 

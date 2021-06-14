@@ -45,8 +45,13 @@ function [I_VE,I_seg] = vesSegment(I, sigma, thres)
     close(h);
     
     % normalize the data (probably normalizing slice wise might be good?)
+%     for i=1:size(I_VE,3)
+%         f_temp = squeeze(I_VE(:,:,i));
+%         f_temp = (f_temp-min(f_temp(:)))/(max(f_temp(:))-min(f_temp(:)));
+%         I_VE(:,:,i) = f_temp;
+%     end
     I_VE = (I_VE-min(I_VE(:)))/(max(I_VE(:))-min(I_VE(:)));
-    
+
     % threshold the volume to get segmentation
     T_thres = I_VE;
     T_thres(I_VE<thres) = 0;
@@ -56,7 +61,7 @@ function [I_VE,I_seg] = vesSegment(I, sigma, thres)
     CC = bwconncomp(T_thres);
     I_seg = T_thres;
     for uuu = 1:length(CC.PixelIdxList)
-        if length(CC.PixelIdxList{uuu}) < 100    % default:30
+        if length(CC.PixelIdxList{uuu}) < 50    % default:30
             I_seg(CC.PixelIdxList{uuu}) = 0;
         end
     end

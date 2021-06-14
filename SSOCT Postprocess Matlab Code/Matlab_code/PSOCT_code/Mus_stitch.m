@@ -169,9 +169,10 @@ for i=1:length(index)
         Masque2(row,column)=ramp;
         Masque(row,column)=Masque(row,column)+Masque2(row,column);
         if strcmp(sys,'PSOCT')
+            
             Mosaic(row,column)=Mosaic(row,column)+us.*Masque2(row,column); %#################################change us to ub if for mub stitch 
         elseif strcmp(sys,'Thorlabs')
-            Mosaic(row,column)=Mosaic(row,column)+ub'.*Masque2(row,column);%#################################
+            Mosaic(row,column)=Mosaic(row,column)+mub'.*Masque2(row,column);%#################################
         end
         
 end

@@ -41,8 +41,8 @@ addpath('/projectnb/npbssmic/s/Matlab_code/NIfTI_20140122');
 %% define coordinates for each tile
 
 % id=str2num(id);
-filename = strcat(datapath,'aip/vol1/');
-f=strcat(filename,'TileConfiguration.txt');
+filename = strcat(datapath,'aip/vol10/');
+f=strcat(filename,'TileConfiguration.registered.txt');
 coord = read_Fiji_coord(f,'aip');
 
 Xcen=zeros(size(coord,2),1);
@@ -74,10 +74,11 @@ ramp=rampx.*rampy;      % blending mask
 
 %% blending & mosaicing
 
-thickness=240;
+thickness=44;
 
 
 filename = strcat(datapath,'dist_corrected/');
+% filename = datapath;
 cd(filename);
 
 
@@ -87,25 +88,46 @@ for nslice=id
     Masque = zeros(size(Mosaic));
     Masque2 = zeros(size(Mosaic));
     filename0=dir(strcat(filename,'ref-',num2str(nslice),'-',num2str(1),'-*.dat'));
+    % only for PSOCT0103
+    % filename0=dir(strcat(filename,num2str(nslice),'-',num2str(1),'-*.dat'));
     name1=strsplit(filename0(1).name,'.');  
-    name_dat=strsplit(name1{1},'-');
+    name_dat=strsplit(name1{1},'-');   
     nk = str2num(name_dat{4}); nxRpt = 1; nx=str2num(name_dat{5}); nyRpt = 1; ny = str2num(name_dat{6});
+    % only for PSOCT0103
+    % nk = 108; nxRpt = 1; nx = 1060; nyRpt = 1; ny = 1060;
     dim=[nk nxRpt nx nyRpt ny];
 
     for i=1:length(index)
 
         in = index(i);
 
+%         filename0=dir(strcat('co-',num2str(nslice),'-',num2str(in),'-*.dat'));
+%         ifilePath=[filename,filename0(1).name];
+%         slice = (ReadDat_int16(ifilePath, dim)).^2;
+%         filename0=dir(strcat('cross-',num2str(nslice),'-',num2str(in),'-*.dat'));
+%         ifilePath=[filename,filename0(1).name];
+%         slice = slice+(ReadDat_int16(ifilePath, dim)).^2;
+%         slice=sqrt(slice);
+        
         filename0=dir(strcat('ref-',num2str(nslice),'-',num2str(in),'-*.dat'));
+        % only for PSOCT0103
+        % filename0=dir(strcat(num2str(nslice),'-',num2str(in),'-*.dat'));
 
         ifilePath=[filename,filename0(1).name];
         info=strcat('Finished loading tile No.', num2str(in),'\n');
         fprintf(info);
 
-        slice = ReadDat_single(ifilePath, dim);
-%         slice = depth_corr(slice,0.0026);
+        
+        slice = ReadDat_int16(ifilePath, dim);       
+        % only for PSOCT0103
+        % slice = ReadDat_single(ifilePath, dim); 
+        % slice(31:74,:,:) = speckle_reduction(double(slice(31:74,:,:)));
+        slice = convn(slice,ones(3,3,3)./27,'same');
+        slice = depth_corr(slice,0.0035);
+        slice = slice(66:66+thickness-1,:,:);
+        
 
-        slice = slice(1:(1+thickness-1),:,:);
+%         slice = slice(1:(thickness),51:1050,51:1050);
 
 
         temp=zeros(thickness,size(slice,2)/4,size(slice,3)/4);
@@ -121,7 +143,8 @@ for nslice=id
         for z=1:size(vol,1)
             vol(z,:,:)=mean(temp((z-1)*4+1:min(z*4,thickness),:,:),1);
         end
-
+    
+        % row and column start with +2 only for PSOCT0103
         row = round(Xcen(in)/4)-round(Xsize/8)+1:round(Xcen(in)/4)+round(Xsize/8);
         column = round(Ycen(in)/4)-round(Ysize/8)+1:round(Ycen(in)/4)+round(Ysize/8);  
 
@@ -135,31 +158,33 @@ for nslice=id
 
     Ref=Mosaic./Masque;
     Ref(isnan(Ref(:)))=0;
-    Ref=single(Ref);
+    % Ref=single(Ref);
 
-    save(strcat(datapath,'dist_corrected/volume/ref',num2str(nslice),'.mat'),'Ref','-v7.3');
+    % save(strcat(datapath,'dist_corrected/volume/ref',num2str(nslice),'.mat'),'Ref','-v7.3');
+    % only for PSOCT0103
+    % save(strcat(datapath,'volume/ref',num2str(nslice),'.mat'),'Ref','-v7.3');
 
 % save as TIFF
 
-%     s=uint16(65535*(mat2gray(Mosaic))); 
-%     
-%     tiffname=strcat('/projectnb/npbssmic/ns/200301_PSOCT/second/corrected/nii/vol',num2str(nslice),'.tif');
-% 
-%     for i=1:size(s,3)
-%         t = Tiff(tiffname,'a');
-%         image=squeeze(s(:,:,i));
-%         tagstruct.ImageLength     = size(image,1);
-%         tagstruct.ImageWidth      = size(image,2);
-%         tagstruct.Photometric     = Tiff.Photometric.MinIsBlack;
-%         tagstruct.BitsPerSample   = 16;
-%         tagstruct.SamplesPerPixel = 1;
-%         tagstruct.PlanarConfiguration = Tiff.PlanarConfiguration.Chunky;
-%         tagstruct.Compression = Tiff.Compression.None;
-%         tagstruct.Software        = 'MATLAB';
-%         t.setTag(tagstruct);
-%         t.write(image);
-%         t.close();
-%     end
+    s=uint8(255*(mat2gray(Ref))); 
+    
+    tiffname=strcat('/projectnb/npbssmic/ns/201128_PSOCT_Ann_7694/dist_corrected/volume/vol',num2str(nslice),'_low_res.tif');
+
+    for i=1:size(s,3)
+        t = Tiff(tiffname,'a');
+        image=squeeze(s(:,:,i));
+        tagstruct.ImageLength     = size(image,1);
+        tagstruct.ImageWidth      = size(image,2);
+        tagstruct.Photometric     = Tiff.Photometric.MinIsBlack;
+        tagstruct.BitsPerSample   = 8;
+        tagstruct.SamplesPerPixel = 1;
+        tagstruct.PlanarConfiguration = Tiff.PlanarConfiguration.Chunky;
+        tagstruct.Compression = Tiff.Compression.None;
+        tagstruct.Software        = 'MATLAB';
+        t.setTag(tagstruct);
+        t.write(image);
+        t.close();
+    end
 
     info=strcat('Volumetric reconstruction of slice No.', num2str(nslice), ' is done.\n');
     fprintf(info);

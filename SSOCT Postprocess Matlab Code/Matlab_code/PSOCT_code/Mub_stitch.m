@@ -100,9 +100,9 @@ cd(filepath);
 
 % filename = filepath;
 % f=strcat(filename,'TileConfiguration.registered.txt');
-f=strcat(datapath,'aip/vol',num2str(id),'/TileConfiguration.registered.txt');
-coord = read_Fiji_coord(f,'aip');
-coord(2:3,:)=coord(2:3,:)./10;
+f=strcat(datapath,'fitting/vol',num2str(id),'/TileConfiguration.registered.txt');
+coord = read_Fiji_coord(f,'us');
+coord(2:3,:)=coord(2:3,:);%./10;
 %% coordinates correction
 % use median corrdinates for all slices
 % coord=squeeze(median(coord,1));
@@ -185,7 +185,7 @@ MosaicFinal(isnan(MosaicFinal))=0;
     if strcmp(sys,'Thorlabs')
         MosaicFinal=MosaicFinal';
     end
-save(strcat(result,'.mat'),'MosaicFinal');
+% save(strcat(result,'.mat'),'MosaicFinal');
 
 % plot in original scale
 % 

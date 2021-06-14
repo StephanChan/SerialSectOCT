@@ -24,7 +24,7 @@ function sur=surprofile(slice,sys)
             aline=squeeze(bscan(:,i));
             if max(aline(start_pxl:end))>1e-4
                 dl=diff(movmean(aline,5));
-                [~, loc]=max(dl(start_pxl:start_pxl+150));                                                %changed by stephan on 191128
+                [~, loc]=max(dl(start_pxl:start_pxl+50));                                                %changed by stephan on 191128
                 loc=loc+start_pxl;
                 sur(i,k)=loc;
             else

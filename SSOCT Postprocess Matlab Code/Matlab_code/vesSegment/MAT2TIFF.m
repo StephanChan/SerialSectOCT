@@ -1,12 +1,12 @@
 function MAT2TIFF(dat,tiffname)
-    dat=uint16(65535*mat2gray(dat));
+    dat=uint8(255*mat2gray(dat));
     for i=1:size(dat,3)
         t = Tiff(tiffname,'a');
         image=squeeze(dat(:,:,i));
         tagstruct.ImageLength     = size(image,1);
         tagstruct.ImageWidth      = size(image,2);
         tagstruct.Photometric     = Tiff.Photometric.MinIsBlack;
-        tagstruct.BitsPerSample   = 16;
+        tagstruct.BitsPerSample   = 8;
         tagstruct.SamplesPerPixel = 1;
         tagstruct.PlanarConfiguration = Tiff.PlanarConfiguration.Chunky;
         tagstruct.Compression = Tiff.Compression.None;

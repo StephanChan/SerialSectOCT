@@ -8,9 +8,9 @@ Yoverlap=0.5;
 
 %% get FIJI stitching info
 
-filename = strcat('/projectnb2/npbssmic/ns/190619_Thorlabs/fitting/fullmodel/');
+filename = strcat('/projectnb2/npbssmic/ns/190619_Thorlabs/aip/vol10/');
 f=strcat(filename,'TileConfiguration.registered.txt');
-coord = read_Fiji_coord(f,'us');
+coord = read_Fiji_coord(f,'aip');
 
 %% coordinates correction
 % use median corrdinates for all slices

@@ -12,14 +12,14 @@ function outdata = rolloff_corr(indata,w)
 %     % find the focus plane
 %     [~, focus_depth]=max(squeeze(mean(mean(indata,2),3)));
 %     focus_depth=focus_depth+30;
-    depth=size(indata,1);
+    depth=size(indata,3);
     z=1:1:depth;
     z0=z/1024;
     sr=(sin(z0)./z0).^2.*exp(-w^2*z0.^2/(2*log(2)));
     sr(isnan(sr(:)))=1;
-    for i=1:size(indata,2)
-        for j=1:size(indata,3)
-            outdata(:,i,j)=indata(:,i,j)./sr';
+    for i=1:size(indata,1)
+        for j=1:size(indata,2)
+            outdata(i,j,:)=squeeze(indata(i,j,:))./squeeze(sr');
         end
     end
     

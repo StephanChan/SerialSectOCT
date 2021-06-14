@@ -17,7 +17,7 @@ clear all;
 % - Jiarui Yang
 %%%%%%%%%%%%%%%%%%%%%%%
 %% set file path
-datapath  = strcat('/projectnb/npbssmic/ns/200813_Thorlabs/slice3-2/');
+datapath  = strcat('/projectnb/npbssmic/ns/210111_Ann_7694_tomato_lectin/');
 
 % add subfunctions for the script
 addpath('/projectnb/npbssmic/s/Matlab_code/');
@@ -28,7 +28,7 @@ cd(datapath);
 %% get data information
 %% change these parameters to appropriate values!
 %[dim, fNameBase,fIndex]=GetNameInfoRaw(filename0(iFile).name);
-nk = 2048; nxRpt = 1; nx=400; nyRpt = 1; ny = 400;
+nk = 2048; nxRpt = 1; nx=400; nyRpt = 1; ny = 1;
 dim=[nk nxRpt nx nyRpt ny];
 
 % s=zeros(400,400,400);
@@ -39,7 +39,7 @@ for i=1:length(filename0)
     disp(['Start loading file ', datestr(now,'DD:HH:MM')]);
     [data_ori] = ReadDat_int16(ifilePath, dim); % read raw data: nk_Nx_ny,Nx=nt*nx
     disp(['Raw_Lamda data of file. ', ' Calculating RR ... ',datestr(now,'DD:HH:MM')]);
-    data=Dat2RR(data_ori,-0.22);
+    data=Dat2RR(data_ori,-0.24);
     if nyRpt==2
         % reorganize RR
         RR(:,:,:,1)=data(:,1:2:end,:);
@@ -47,7 +47,7 @@ for i=1:length(filename0)
         dat=RR2AG(RR);
         slice=dat(1:600,:,:);
     else
-        slice=abs(data(1:600,:,:));
+        slice=abs(data(1:400,:,:));
     end
     % s=s+slice;
 end
@@ -55,8 +55,8 @@ end
 % save('angio.mat','slice');
 % save as tiff
 
-s=uint16(65535*(mat2gray(20.*log10(slice)))); 
-tiffname=strcat('/projectnb/npbssmic/ns/200813_Thorlabs/slice3_2.tif');
+s=uint16(65535*(mat2gray(10.*log10(slice)))); 
+tiffname=strcat('/projectnb/npbssmic/ns/210111_Ann_7694_tomato_lectin/slice_20x_400_r.24_28khz_2.tif');
 for i=1:size(s,3)
     t = Tiff(tiffname,'a');
     image=squeeze(s(:,:,i));

@@ -11,7 +11,7 @@ function sur=surprofile(slice,sys)
     
     % define the starting pixel for surface finding
     if strcmp(sys,'PSOCT')
-        start_pxl=105;
+        start_pxl=3;
     elseif strcmp(sys,'Thorlabs')
         start_pxl=30;
     end
@@ -25,11 +25,9 @@ function sur=surprofile(slice,sys)
             aline=squeeze(bscan(:,((i-1)*ds_factor+1):(i*ds_factor),:));
             aline=squeeze(mean(mean(aline,2),3));
             [m,z]=max(aline(start_pxl:end));
-            z=min(z+20,size(vol,1));
-            if m>1e-4
-%                 dl=diff(movmean(aline,10));
-%                 [~, loc]=max(dl(start_pxl:start_pxl+150));                                                %changed by stephan on 191128
-                loc=findchangepts(aline(1:z));
+            z=min(z+20,size(vol,1)-5);
+            if m>0.01
+                loc=findchangepts(aline(start_pxl:z));
                 loc=loc+start_pxl;
                 sur(i,k)=loc;
             else

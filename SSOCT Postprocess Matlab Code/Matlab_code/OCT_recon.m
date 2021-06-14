@@ -39,27 +39,27 @@ xx=866;    % xx is the X displacement of two adjacent tile align in the X direct
 xy=-8;     % xy is the Y displacement of two adjacent tile align in the X direction, default to 0
 yy=866;    % yy is the Y displacement of two adjacent tile align in the Y direction
 yx=8;      % xx is the X displacement of two adjacent tile align in the Y direction, default to 0
-numX=7;    % #tiles in X direction
-numY=7;    % #tiles in Y direction
+numX=18;    % #tiles in X direction
+numY=16;    % #tiles in Y direction
 Xoverlap=0.15;   % overlap in X direction
 Yoverlap=0.15;   % overlap in Y direction
 disp=[xx xy yy yx];
 mosaic=[numX numY Xoverlap Yoverlap];
 pattern = 'bidirectional';  % mosaic pattern, could be bidirectional or unidirectional
-
 % load distortion correction matrixes, Optional
 if(strcmp(sys,'PSOCT'))
-    folder_distort='/projectnb2/npbssmic/ns/201018_PSOCT_30um_on_slide';                     
-    fileID = fopen(strcat(folder_distort,'/grid matrix.bin'), 'r'); 
+    folder_distort='/projectnb2/npbssmic/ns/210425_PSOCT_tissue_deform_test/';                     
+    fileID = fopen(strcat(folder_distort,'grid matrix.bin'), 'r'); 
     grid_matrix = fread(fileID,'double');
     fclose(fileID);
     grid_matrix=reshape(grid_matrix, 4,1100,1100);
-    
-    load(strcat(folder_distort,'/surface.mat'));
+    load(strcat(folder_distort,'surface.mat'));
+%     load(strcat(folder_distort,'mask.mat'));
+
 end
 
 % specify dataset directory
-datapath  = strcat('/projectnb2/npbssmic/ns/201015_PSOCT/');
+datapath  = folder_distort;
 % directory that stores distortion corrected 3D tiles. Optional
 corrected_path=strcat(datapath,'dist_corrected/'); 
 mkdir(strcat(datapath,'dist_corrected'));
@@ -72,9 +72,9 @@ addpath('/projectnb/npbssmic/s/Matlab_code/ThorOCT_code');
 addpath('/projectnb/npbssmic/s/Matlab_code');
 
 cd(datapath);
-filename0=dir(strcat('1-*B.dat')); % count #tiles per slice
+filename0=dir(strcat('1-*AB.dat')); % count #tiles per slice
 ntile=length(filename0);
-nslice=1; % define total number of slices
+nslice=30; % define total number of slices
 
 % the following indented lines are for multi-thread processing
 % on BU SCC only. The purpose here is to divide the data into njobs groups,
@@ -82,11 +82,12 @@ nslice=1; % define total number of slices
 % number for id-th thread.
 %
 % Define your own istart and istop if not running on BU SCC
-    njobs=1;
+id=str2num(id);    
+njobs=1;
     section=ceil(ntile/njobs);
     % the $SGE-TASK-ID environment variable read in is CHARACTER, need to transfer to number
-    id=1;%str2num(id);
-    istart=1;%(id-1)*section+1;
+   
+    istart=section;%(id-1)*section+1;
     istop=section;
 % create folder for AIPs and MIPs
 create_dir(nslice, datapath);           % create directories for all results
@@ -107,51 +108,54 @@ for islice=id
             dim1=[400 1 400 1 400];
 %             dim1=[137 1 1000 1 1000];
         end
-        name1=strcat(num2str(islice),'-',num2str(iFile),'-',num2str(Zsize),'-',num2str(Xsize),'-',num2str(Ysize),'-B.dat'); % gen file name for reflectivity
+        name1=strcat(num2str(islice),'-',num2str(iFile),'-',num2str(Zsize),'-',num2str(Xsize),'-',num2str(Ysize),'-AB.dat'); % gen file name for reflectivity
         
         % load reflectivity data
         ifilePath = [datapath,name1];
-        ref = ReadDat_int16(ifilePath, dim1);
+        amp = ReadDat_int16(ifilePath, dim1)./65535*2;
         % load retardance data
 %         if(strcmp(sys,'PSOCT'))
-%             dim2=[Zsize/4 Xrpt Xsize Yrpt Ysize];   % tile size for retardance, downsampled by 4 in Z 
+%             dim2=[Zsize/4 Xrpt Xsize Yrpt Ysize/2];   % tile size for retardance, downsampled by 4 in Z 
 %             name2=strcat(num2str(islice),'-',num2str(iFile),'-',num2str(Zsize),'-',num2str(Xsize),'-',num2str(Ysize),'-ret.dat');% gen file name for retardance
 %             retPath=[datapath,name2];
-%             ret = ReadDat_int16(retPath, dim2);
+%             ret = ReadDat_int16(retPath, dim2)./65535*180;
 %         end
         
         message=strcat('Tile No. ',string(coord),' is read.', datestr(now,'DD:HH:MM'),'\n');
         fprintf(message);
         
         % distortion correction for PSOCT. Comment out if not need
-        if(strcmp(sys,'PSOCT'))
-             ref = ref(:,106:1205,:);                                                                    % specify FOV cut
-%              ret = ret(:,106:1205,:);
-             ref = FOV_curvature_correction(ref, surface, size(ref,1), size(ref,2), size(ref,3));           % specify z and x 
-             ref = Grid_correction(ref, grid_matrix, 1050, 51, 1050, 51, size(ref,1));                   % specify x0,x1,y0,y1 and z
-%              ret = FOV_curvature_correction(ret, round(surface./4), size(ret,1), size(ret,2), size(ret,3)); % specify z and x 
-%              ret = Grid_correction(ret, grid_matrix, 1050, 51, 1050, 51, size(ret,1));                   % specify x0,x1,y0,y1 and z
+        
+        if(strcmp(sys,'PSOCT')) 
+             cross=amp(:,106:1205,1:1100);
+             co=amp(:,106:1205,1101:2200);
+             cross = FOV_curvature_correction(cross, surface, size(cross,1), size(cross,2), size(cross,3));           % specify z and x 
+             cross = Grid_correction(cross, grid_matrix, 1050, 51, 1050, 51, size(cross,1));                   % specify x0,x1,y0,y1 and z
+             co = FOV_curvature_correction(co, surface, size(co,1), size(co,2), size(co,3)); % specify z and x 
+             co = Grid_correction(co, grid_matrix, 1050, 51, 1050, 51, size(co,1));                   % specify x0,x1,y0,y1 and z
+             ref=sqrt(cross.^2+co.^2);
+%              ret=atan(cross./co);
         end
 
          % surface profiling and save to folder
-%          sur=surprofile2(ref,sys);
-%          surname=strcat(datapath,'surf/vol',num2str(slice_index),'/',coord,'.mat');
-%          save(surname,'sur');
+         sur=surprofile2(ref,sys);
+         surname=strcat(datapath,'surf/vol',num2str(slice_index),'/',coord,'.mat');
+         save(surname,'sur');
                   
          % saving corrected tiles to folder. Optional
          if(strcmp(sys,'PSOCT'))
-           start_pxl=1;
-           name1=strcat(num2str(islice),'-',num2str(iFile),'-',num2str(size(ref,1)-start_pxl+1),'-',num2str(size(ref,2)),'-',num2str(size(ref,3)),'.dat'); % gen file name for reflectivity
-           FILE_ref=strcat(corrected_path, 'ref-', name1);
+           start_point=1;
+           name1=strcat(num2str(islice),'-',num2str(iFile),'-',num2str(size(cross,1)-start_point+1),'-',num2str(size(cross,2)),'-',num2str(size(cross,3)),'.dat'); % gen file name for reflectivity
+           FILE_ref=strcat(corrected_path, 'cross-', name1);
            FID=fopen(FILE_ref,'w');
-           fwrite(FID,ref(start_pxl:end,:,:),'single');
+           fwrite(FID,cross(start_point:end,:,:)./2*65535,'int16');
            fclose(FID);
            
-%            name2=strcat(num2str(islice),'-',num2str(iFile),'-',num2str(size(ret,1)),'-',num2str(size(ret,2)),'-',num2str(size(ret,3)),'.dat'); % gen file name for reflectivity
-%            FILE_ret=strcat(corrected_path, 'ret-', name2);
-%            FID=fopen(FILE_ret,'w');
-%            fwrite(FID,ret,'single');
-%            fclose(FID);
+           name2=strcat(num2str(islice),'-',num2str(iFile),'-',num2str(size(co,1)-start_point+1),'-',num2str(size(co,2)),'-',num2str(size(co,3)),'.dat'); % gen file name for reflectivity
+           FILE_ret=strcat(corrected_path, 'co-', name2);
+           FID=fopen(FILE_ret,'w');
+           fwrite(FID,co(start_point:end,:,:)./2*65535,'int16');
+           fclose(FID);
          end
          
          % Optical property fitting
@@ -166,7 +170,7 @@ for islice=id
          save(avgname,'aip');  
          
 %          if(strcmp(sys,'PSOCT'))
-%             ret_aip=squeeze(mean(ret(1:40,:,:),1))./65535*180;
+%             ret_aip=squeeze(mean(ret(1:40,:,:),1));
 %             retname=strcat(datapath,'retardance/vol',num2str(slice_index),'/',coord,'.mat');
 %             save(retname,'ret_aip'); 
 %          end
@@ -206,27 +210,27 @@ for islice=id
 %             t.write(ret_aip);
 %             t.close();
 %         end
-
-        % Saving MIP.tif
-        mip=single(mip);
-        tiffname=strcat(datapath,'mip/vol',num2str(slice_index),'/',num2str(str2num(coord)),'_mip.tif');
-        t = Tiff(tiffname,'w');
-        tagstruct.ImageLength     = size(mip,1);
-        tagstruct.ImageWidth      = size(mip,2);
-        tagstruct.SampleFormat    = Tiff.SampleFormat.IEEEFP;
-        tagstruct.Photometric     = Tiff.Photometric.MinIsBlack;
-        tagstruct.BitsPerSample   = 32;
-        tagstruct.SamplesPerPixel = 1;
-        tagstruct.Compression     = Tiff.Compression.None;
-        tagstruct.PlanarConfiguration = Tiff.PlanarConfiguration.Chunky;
-        tagstruct.Software        = 'MATLAB';
-        t.setTag(tagstruct);
-        t.write(mip);
-        t.close();
+% 
+%         % Saving MIP.tif
+%         mip=single(mip);
+%         tiffname=strcat(datapath,'mip/vol',num2str(slice_index),'/',num2str(str2num(coord)),'_mip.tif');
+%         t = Tiff(tiffname,'w');
+%         tagstruct.ImageLength     = size(mip,1);
+%         tagstruct.ImageWidth      = size(mip,2);
+%         tagstruct.SampleFormat    = Tiff.SampleFormat.IEEEFP;
+%         tagstruct.Photometric     = Tiff.Photometric.MinIsBlack;
+%         tagstruct.BitsPerSample   = 32;
+%         tagstruct.SamplesPerPixel = 1;
+%         tagstruct.Compression     = Tiff.Compression.None;
+%         tagstruct.PlanarConfiguration = Tiff.PlanarConfiguration.Chunky;
+%         tagstruct.Software        = 'MATLAB';
+%         t.setTag(tagstruct);
+%         t.write(mip);
+%         t.close();
 
         fprintf(strcat('Tile No. ',coord,' is reconstructed.', datestr(now,'DD:HH:MM'),'\n'));
     end   
-    pxlsize=[size(ref,2) size(ref,3)];  % finalized tile size for stitching
+    pxlsize=[size(cross,2) size(cross,3)];  % finalized tile size for stitching
     
 %% Stitching
 % Stitch AIP first using Stitch_aip.m and save the coordinates. Same coordinates are used to stitch
@@ -235,14 +239,15 @@ for islice=id
     AIP_stitch(datapath,disp,mosaic,pxlsize,islice,pattern,sys);                     % stitch AIP
 %     Mus_stitch('mus',datapath,disp,mosaic,pxlsize./10,islice,pattern,sys);           % stitch mus
 %     Mub_stitch('mub', datapath,disp,mosaic,pxlsize./10,islice,pattern,sys)           % stitch mub
-%     Surf_stitch('sur',datapath,disp,mosaic,pxlsize/10,islice,pattern,sys);              % stitch surface
+    Surf_stitch('sur',datapath,disp,mosaic,pxlsize/10,islice,pattern,'PSOCT');              % stitch surface
 %     RetDownsample_Hui('ret', datapath,disp,mosaic,pxlsize,islice,pattern,sys,10);    % downsample retardance. optional
 %     Ret_stitch('ret', datapath,disp,mosaic,pxlsize,islice,pattern,sys);              % stitch retardance AIP
-%     
-    ref_vol_stitch(id,datapath);
     
+%     ref_vol_stitch(id,datapath);
+%     ref_vol_stitch_from_AB(id,datapath);
     if(strcmp(sys,'PSOCT'))
-        ret_vol_stitch(id,datapath);
+        
+%         ret_vol_stitch(id,datapath);
 %         Concat_ret_vol(nslice,datapath);
     end
 %     Concat_ref_vol(nslice,datapath);
