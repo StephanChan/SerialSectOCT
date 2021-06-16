@@ -14,6 +14,7 @@
 			<Item Name="DLL" Type="Folder">
 				<Item Name="ATSApi.dll" Type="Document" URL="../DLL/ATSApi.dll"/>
 				<Item Name="CUDA_FFT_2_channel.dll" Type="Document" URL="../DLL/CUDA_FFT_2_channel.dll"/>
+				<Item Name="CUDA_FFT_2_channel_amps.dll" Type="Document" URL="../DLL/CUDA_FFT_2_channel_amps.dll"/>
 				<Item Name="CUDA_FFT_2_channel_ref_ret.dll" Type="Document" URL="../DLL/CUDA_FFT_2_channel_ref_ret.dll"/>
 				<Item Name="CUDA_FFT_2_channel_ref_ret_fast2.dll" Type="Document" URL="../DLL/CUDA_FFT_2_channel_ref_ret_fast2.dll"/>
 				<Item Name="CUDA_FFT_2_channel_save_all.dll" Type="Document" URL="../DLL/CUDA_FFT_2_channel_save_all.dll"/>
@@ -8633,126 +8634,6 @@
 						</Item>
 						<Item Name="LabView" Type="Folder">
 							<Item Name="LabView 64 bit" Type="Folder">
-								<Item Name="TLPM" Type="Folder">
-									<Item Name="TLPM Calibration Message.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Calibration Message.vi"/>
-									<Item Name="TLPM Cancel Dark Adjustment.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Cancel Dark Adjustment.vi"/>
-									<Item Name="TLPM Close.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Close.vi"/>
-									<Item Name="TLPM Error Message.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Error Message.vi"/>
-									<Item Name="TLPM Error Query Mode.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Error Query Mode.vi"/>
-									<Item Name="TLPM Error-Query.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Error-Query.vi"/>
-									<Item Name="TLPM Find Resources.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Find Resources.vi"/>
-									<Item Name="TLPM Get Attenuation.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Attenuation.vi"/>
-									<Item Name="TLPM Get Average Count.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Average Count.vi"/>
-									<Item Name="TLPM Get Average Time.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Average Time.vi"/>
-									<Item Name="TLPM Get Battery Voltage.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Battery Voltage.vi"/>
-									<Item Name="TLPM Get Beam Diameter.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Beam Diameter.vi"/>
-									<Item Name="TLPM Get Communication Timeout.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Communication Timeout.vi"/>
-									<Item Name="TLPM Get Current Autorange Mode.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Current Autorange Mode.vi"/>
-									<Item Name="TLPM Get Current Range.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Current Range.vi"/>
-									<Item Name="TLPM Get Current Reference State.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Current Reference State.vi"/>
-									<Item Name="TLPM Get Current Reference.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Current Reference.vi"/>
-									<Item Name="TLPM Get Custom Sensor Input Adapter Type.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Custom Sensor Input Adapter Type.vi"/>
-									<Item Name="TLPM Get Dark Adjustment State.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Dark Adjustment State.vi"/>
-									<Item Name="TLPM Get Dark Offset.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Dark Offset.vi"/>
-									<Item Name="TLPM Get Date And Time.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Date And Time.vi"/>
-									<Item Name="TLPM Get Digital I  O Direction.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Digital I  O Direction.vi"/>
-									<Item Name="TLPM Get Digital I  O Output.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Digital I  O Output.vi"/>
-									<Item Name="TLPM Get Digital I  O Port.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Digital I  O Port.vi"/>
-									<Item Name="TLPM Get Display Brightness.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Display Brightness.vi"/>
-									<Item Name="TLPM Get Display Contrast.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Display Contrast.vi"/>
-									<Item Name="TLPM Get Energy Range.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Energy Range.vi"/>
-									<Item Name="TLPM Get Energy Reference State.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Energy Reference State.vi"/>
-									<Item Name="TLPM Get Energy Reference.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Energy Reference.vi"/>
-									<Item Name="TLPM Get External NTC Parameter.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get External NTC Parameter.vi"/>
-									<Item Name="TLPM Get Frequency Range.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Frequency Range.vi"/>
-									<Item Name="TLPM Get Line Frequency.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Line Frequency.vi"/>
-									<Item Name="TLPM Get Peak Detector Threshold.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Peak Detector Threshold.vi"/>
-									<Item Name="TLPM Get Photodiode Input Filter State.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Photodiode Input Filter State.vi"/>
-									<Item Name="TLPM Get Photodiode Responsivity.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Photodiode Responsivity.vi"/>
-									<Item Name="TLPM Get Power Autorange Mode.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Power Autorange Mode.vi"/>
-									<Item Name="TLPM Get Power Range.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Power Range.vi"/>
-									<Item Name="TLPM Get Power Reference State.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Power Reference State.vi"/>
-									<Item Name="TLPM Get Power Reference.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Power Reference.vi"/>
-									<Item Name="TLPM Get Power Unit.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Power Unit.vi"/>
-									<Item Name="TLPM Get Pyrosensor Responsivity.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Pyrosensor Responsivity.vi"/>
-									<Item Name="TLPM Get Resource Information.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Resource Information.vi"/>
-									<Item Name="TLPM Get Resource Name.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Resource Name.vi"/>
-									<Item Name="TLPM Get Thermopile Accelerator Mode.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Thermopile Accelerator Mode.vi"/>
-									<Item Name="TLPM Get Thermopile Accelerator State.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Thermopile Accelerator State.vi"/>
-									<Item Name="TLPM Get Thermopile Accelerator Tau.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Thermopile Accelerator Tau.vi"/>
-									<Item Name="TLPM Get Thermopile Responsivity.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Thermopile Responsivity.vi"/>
-									<Item Name="TLPM Get Voltage Autorange Mode.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Voltage Autorange Mode.vi"/>
-									<Item Name="TLPM Get Voltage Range.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Voltage Range.vi"/>
-									<Item Name="TLPM Get Voltage Reference State.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Voltage Reference State.vi"/>
-									<Item Name="TLPM Get Voltage Reference.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Voltage Reference.vi"/>
-									<Item Name="TLPM Get Wavelength.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Get Wavelength.vi"/>
-									<Item Name="TLPM Identification Query.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Identification Query.vi"/>
-									<Item Name="TLPM Initialize.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Initialize.vi"/>
-									<Item Name="TLPM Measure Auxiliary AD0 Voltage.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Measure Auxiliary AD0 Voltage.vi"/>
-									<Item Name="TLPM Measure Auxiliary AD1 Voltage.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Measure Auxiliary AD1 Voltage.vi"/>
-									<Item Name="TLPM Measure Current.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Measure Current.vi"/>
-									<Item Name="TLPM Measure Energy Density.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Measure Energy Density.vi"/>
-									<Item Name="TLPM Measure Energy.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Measure Energy.vi"/>
-									<Item Name="TLPM Measure Environmental Humidity.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Measure Environmental Humidity.vi"/>
-									<Item Name="TLPM Measure Environmental Temperature.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Measure Environmental Temperature.vi"/>
-									<Item Name="TLPM Measure External NTC Resistance.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Measure External NTC Resistance.vi"/>
-									<Item Name="TLPM Measure External NTC Temperature.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Measure External NTC Temperature.vi"/>
-									<Item Name="TLPM Measure Frequency.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Measure Frequency.vi"/>
-									<Item Name="TLPM Measure Power Density.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Measure Power Density.vi"/>
-									<Item Name="TLPM Measure Power.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Measure Power.vi"/>
-									<Item Name="TLPM Measure Voltage.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Measure Voltage.vi"/>
-									<Item Name="TLPM Preset Registers.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Preset Registers.vi"/>
-									<Item Name="TLPM Raw Read From Instrument.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Raw Read From Instrument.vi"/>
-									<Item Name="TLPM Raw Write To Instrument.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Raw Write To Instrument.vi"/>
-									<Item Name="TLPM Read Register.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Read Register.vi"/>
-									<Item Name="TLPM Reset.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Reset.vi"/>
-									<Item Name="TLPM Revision Query.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Revision Query.vi"/>
-									<Item Name="TLPM Self-Test.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Self-Test.vi"/>
-									<Item Name="TLPM Sensor Information.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Sensor Information.vi"/>
-									<Item Name="TLPM Set Attenuation.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Attenuation.vi"/>
-									<Item Name="TLPM Set Average Count.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Average Count.vi"/>
-									<Item Name="TLPM Set Average Time.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Average Time.vi"/>
-									<Item Name="TLPM Set Beam Diameter.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Beam Diameter.vi"/>
-									<Item Name="TLPM Set Communication Timeout.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Communication Timeout.vi"/>
-									<Item Name="TLPM Set Current Autorange Mode.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Current Autorange Mode.vi"/>
-									<Item Name="TLPM Set Current Range.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Current Range.vi"/>
-									<Item Name="TLPM Set Current Reference State.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Current Reference State.vi"/>
-									<Item Name="TLPM Set Current Reference.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Current Reference.vi"/>
-									<Item Name="TLPM Set Custom Sensor Input Adapter Type.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Custom Sensor Input Adapter Type.vi"/>
-									<Item Name="TLPM Set Date And Time.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Date And Time.vi"/>
-									<Item Name="TLPM Set Digital I  O Direction.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Digital I  O Direction.vi"/>
-									<Item Name="TLPM Set Digital I  O Output.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Digital I  O Output.vi"/>
-									<Item Name="TLPM Set Display Brightness.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Display Brightness.vi"/>
-									<Item Name="TLPM Set Display Contrast.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Display Contrast.vi"/>
-									<Item Name="TLPM Set Energy Range.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Energy Range.vi"/>
-									<Item Name="TLPM Set Energy Reference State.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Energy Reference State.vi"/>
-									<Item Name="TLPM Set Energy Reference.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Energy Reference.vi"/>
-									<Item Name="TLPM Set External NTC Parameter.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set External NTC Parameter.vi"/>
-									<Item Name="TLPM Set Line Frequency.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Line Frequency.vi"/>
-									<Item Name="TLPM Set Peak Detector Threshold.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Peak Detector Threshold.vi"/>
-									<Item Name="TLPM Set Photodiode Input Filter State.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Photodiode Input Filter State.vi"/>
-									<Item Name="TLPM Set Photodiode Responsivity.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Photodiode Responsivity.vi"/>
-									<Item Name="TLPM Set Power Autorange Mode.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Power Autorange Mode.vi"/>
-									<Item Name="TLPM Set Power Range.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Power Range.vi"/>
-									<Item Name="TLPM Set Power Reference State.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Power Reference State.vi"/>
-									<Item Name="TLPM Set Power Reference.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Power Reference.vi"/>
-									<Item Name="TLPM Set Power Unit.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Power Unit.vi"/>
-									<Item Name="TLPM Set Pyrosensor Responsivity.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Pyrosensor Responsivity.vi"/>
-									<Item Name="TLPM Set Thermopile Accelerator Mode.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Thermopile Accelerator Mode.vi"/>
-									<Item Name="TLPM Set Thermopile Accelerator State.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Thermopile Accelerator State.vi"/>
-									<Item Name="TLPM Set Thermopile Accelerator Tau.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Thermopile Accelerator Tau.vi"/>
-									<Item Name="TLPM Set Thermopile Responsivity.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Thermopile Responsivity.vi"/>
-									<Item Name="TLPM Set Voltage Autorange Mode.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Voltage Autorange Mode.vi"/>
-									<Item Name="TLPM Set Voltage Range.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Voltage Range.vi"/>
-									<Item Name="TLPM Set Voltage Reference State.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Voltage Reference State.vi"/>
-									<Item Name="TLPM Set Voltage Reference.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Voltage Reference.vi"/>
-									<Item Name="TLPM Set Wavelength.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Set Wavelength.vi"/>
-									<Item Name="TLPM Start Dark Offset Adjustment.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Start Dark Offset Adjustment.vi"/>
-									<Item Name="TLPM VI Tree.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM VI Tree.vi"/>
-									<Item Name="TLPM VXIpnp Error Converter.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM VXIpnp Error Converter.vi"/>
-									<Item Name="TLPM Write Register.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM Write Register.vi"/>
-									<Item Name="TLPM_PowerMeter_Sample.vi" Type="VI" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/TLPM.llb/TLPM_PowerMeter_Sample.vi"/>
-								</Item>
 								<Item Name="dir - Digital I_O.mnu" Type="Document" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/dir - Digital I_O.mnu"/>
 								<Item Name="dir - Measure - Configure - Average.mnu" Type="Document" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/dir - Measure - Configure - Average.mnu"/>
 								<Item Name="dir - Measure - Configure - Correction.mnu" Type="Document" URL="../Hardware Mfg/Power meter/Driver/LabView/LabView 64 bit/dir - Measure - Configure - Correction.mnu"/>
@@ -8982,7 +8863,6 @@
 							<Item Name="TLPM Set Voltage Reference.vi" Type="VI" URL="../Hardware Mfg/Power meter/Private/TLPM.llb/TLPM Set Voltage Reference.vi"/>
 							<Item Name="TLPM Set Wavelength.vi" Type="VI" URL="../Hardware Mfg/Power meter/Private/TLPM.llb/TLPM Set Wavelength.vi"/>
 							<Item Name="TLPM Start Dark Offset Adjustment.vi" Type="VI" URL="../Hardware Mfg/Power meter/Private/TLPM.llb/TLPM Start Dark Offset Adjustment.vi"/>
-							<Item Name="TLPM VI Tree.vi" Type="VI" URL="../Hardware Mfg/Power meter/Private/TLPM.llb/TLPM VI Tree.vi"/>
 							<Item Name="TLPM VXIpnp Error Converter.vi" Type="VI" URL="../Hardware Mfg/Power meter/Private/TLPM.llb/TLPM VXIpnp Error Converter.vi"/>
 							<Item Name="TLPM Write Register.vi" Type="VI" URL="../Hardware Mfg/Power meter/Private/TLPM.llb/TLPM Write Register.vi"/>
 							<Item Name="TLPM_PowerMeter_Sample.vi" Type="VI" URL="../Hardware Mfg/Power meter/Private/TLPM.llb/TLPM_PowerMeter_Sample.vi"/>
@@ -8997,7 +8877,6 @@
 				<Item Name="Thorlabs Cage Rotation" Type="Folder">
 					<Item Name="Cage controller.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage controller.vi"/>
 					<Item Name="cage manager.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/cage manager.vi"/>
-					<Item Name="cage rotator.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/cage rotator.vi"/>
 					<Item Name="Cage-connect.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-connect.vi"/>
 					<Item Name="Cage-get-acceleration.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-get-acceleration.vi"/>
 					<Item Name="Cage-get-connect.vi" Type="VI" URL="../Hardware Mfg/Thorlabs Cage Rotation/Cage-get-connect.vi"/>
@@ -9872,6 +9751,7 @@
 			<Item Name="ThorlabsDefaultSettings.xml" Type="Document" URL="../ThorlabsDefaultSettings.xml"/>
 			<Item Name="Xceed.Wpf.Toolkit.dll" Type="Document" URL="../Xceed.Wpf.Toolkit.dll"/>
 		</Item>
+		<Item Name="Test rotation mount.vi" Type="VI" URL="../Test Code/Test rotation mount.vi"/>
 		<Item Name="Test_ethernet_speed.vi" Type="VI" URL="../Test Code/Test_ethernet_speed.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
@@ -10261,6 +10141,45 @@
 			</Item>
 		</Item>
 		<Item Name="Build Specifications" Type="Build">
+			<Item Name="2P_power_calibration" Type="EXE">
+				<Property Name="App_copyErrors" Type="Bool">true</Property>
+				<Property Name="App_INI_aliasGUID" Type="Str">{78B08794-607D-49F7-8E02-B9D631CAAA10}</Property>
+				<Property Name="App_INI_GUID" Type="Str">{958535B5-6021-4617-B748-D1C5ACEAAA47}</Property>
+				<Property Name="App_serverConfig.httpPort" Type="Int">8002</Property>
+				<Property Name="Bld_autoIncrement" Type="Bool">true</Property>
+				<Property Name="Bld_buildCacheID" Type="Str">{59D7ED03-ABB8-430C-8E2A-C8954DB23DC2}</Property>
+				<Property Name="Bld_buildSpecName" Type="Str">2P_power_calibration</Property>
+				<Property Name="Bld_excludeInlineSubVIs" Type="Bool">true</Property>
+				<Property Name="Bld_excludeLibraryItems" Type="Bool">true</Property>
+				<Property Name="Bld_excludePolymorphicVIs" Type="Bool">true</Property>
+				<Property Name="Bld_localDestDir" Type="Path">../builds/NI_AB_PROJECTNAME/2P_power_calibration</Property>
+				<Property Name="Bld_localDestDirType" Type="Str">relativeToCommon</Property>
+				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
+				<Property Name="Bld_previewCacheID" Type="Str">{A611BBAE-4C94-40CC-8109-1156D58C7D5F}</Property>
+				<Property Name="Bld_version.build" Type="Int">3</Property>
+				<Property Name="Bld_version.major" Type="Int">1</Property>
+				<Property Name="Destination[0].destName" Type="Str">Application.exe</Property>
+				<Property Name="Destination[0].path" Type="Path">../builds/NI_AB_PROJECTNAME/2P_power_calibration/Application.exe</Property>
+				<Property Name="Destination[0].preserveHierarchy" Type="Bool">true</Property>
+				<Property Name="Destination[0].type" Type="Str">App</Property>
+				<Property Name="Destination[1].destName" Type="Str">Support Directory</Property>
+				<Property Name="Destination[1].path" Type="Path">../builds/NI_AB_PROJECTNAME/2P_power_calibration/data</Property>
+				<Property Name="DestinationCount" Type="Int">2</Property>
+				<Property Name="Source[0].itemID" Type="Str">{09EFE206-4463-471E-8B32-2E4581F54657}</Property>
+				<Property Name="Source[0].type" Type="Str">Container</Property>
+				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
+				<Property Name="Source[1].itemID" Type="Ref">/My Computer/Software/Test Code/Power-HWP test.vi</Property>
+				<Property Name="Source[1].sourceInclusion" Type="Str">TopLevel</Property>
+				<Property Name="Source[1].type" Type="Str">VI</Property>
+				<Property Name="SourceCount" Type="Int">2</Property>
+				<Property Name="TgtF_fileDescription" Type="Str">2P_power_calibration</Property>
+				<Property Name="TgtF_internalName" Type="Str">2P_power_calibration</Property>
+				<Property Name="TgtF_legalCopyright" Type="Str">Copyright © 2021 </Property>
+				<Property Name="TgtF_productName" Type="Str">2P_power_calibration</Property>
+				<Property Name="TgtF_targetfileGUID" Type="Str">{41740C72-7459-48A0-ADC3-06D21EE97BD2}</Property>
+				<Property Name="TgtF_targetfileName" Type="Str">Application.exe</Property>
+				<Property Name="TgtF_versionIndependent" Type="Bool">true</Property>
+			</Item>
 			<Item Name="mainGUI" Type="EXE">
 				<Property Name="App_copyErrors" Type="Bool">true</Property>
 				<Property Name="App_INI_aliasGUID" Type="Str">{560FE1F6-B26A-4FC5-B36F-90C3BC45CDCE}</Property>
@@ -10276,7 +10195,7 @@
 				<Property Name="Bld_localDestDirType" Type="Str">relativeToCommon</Property>
 				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{9621E17C-FB12-43F2-AF63-96A1D7874786}</Property>
-				<Property Name="Bld_version.build" Type="Int">22</Property>
+				<Property Name="Bld_version.build" Type="Int">26</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">mainGUI.exe</Property>
 				<Property Name="Destination[0].path" Type="Path">../builds/NI_AB_PROJECTNAME/mainGUI/mainGUI.exe</Property>
@@ -10285,7 +10204,7 @@
 				<Property Name="Destination[1].destName" Type="Str">Support Directory</Property>
 				<Property Name="Destination[1].path" Type="Path">../builds/NI_AB_PROJECTNAME/mainGUI/data</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
-				<Property Name="Source[0].itemID" Type="Str">{749CA565-8A70-496E-930B-968B4366F364}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{235F67A2-5C46-4C04-923E-B6BA939DC92D}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/Software/MainGUI.vi</Property>
