@@ -1,49 +1,38 @@
+function[]=Hui_sum_all(folder,ntiles,islice, z)
 addpath('/projectnb/npbssmic/s/Matlab_code/fitting_code');
 addpath('/projectnb/npbssmic/s/Matlab_code/PostProcessing');
 addpath('/projectnb/npbssmic/s/Matlab_code/PSOCT_code');
 addpath('/projectnb/npbssmic/s/Matlab_code/ThorOCT_code');
 addpath('/projectnb/npbssmic/s/Matlab_code');
 
-folder='/projectnb2/npbssmic/ns/210425_PSOCT_tissue_deform_test/';
 cd(folder);
-files=dir('28-*.dat');
-num_files=length(files);
-sum=zeros(300,1100,1100);
-
-for i=1:num_files
+files=dir(strcat(num2str(islice),'-*AB.dat'));
+sum_co=zeros(z,1100,1100);
+sum_cross=zeros(z,1100,1100);
+for i=1:ntiles
     i
-%     info = niftiinfo(strcat(folder,files(i).name));
-%     sum = sum+niftiread(info);
-%      load(files(i).name);
-%      sum=sum+sqrt(IJones);
-    ref = ReadDat_int16(strcat(folder,files(i).name), [300 1 1250 1 2200 ]);
-%     sum=sum+ref;
-    sum=sum+ref(:,106:1205,1101:2200)./65535*2;
-%     sum=sum+ref(:,106:1205,2201:3300)./65535*2;
+    amp = ReadDat_int16(strcat(folder,files(i).name), [z 1 1200 1 3300 ]);
+    sum_co=sum_co+amp(:,101:1200,1101:2200)./65535*4;
+%     sum_cross=sum_cross+amp(:,51:1150,1:1100)./65535*4;
 end
-sum=convn(sum,ones(3,3)./9,'same');
-save('sum_all.mat','sum')
-% v=ones(3,3,3)./27;
-% sum=convn(sum,v,'same');
-% % sum=flip(sum,3);
-% [m,x]=max(sum4,[],1);
-% % x(x>std(x(:))*4)=mean(x(:));
-surface=surprofile2(sum,'PSOCT');
-% [m,surface]=max(sum(113:end,:,:),[],1);
-% surface=squeeze(surface);
+% sum_co=convn(sum_co,ones(3,3)./9,'same');
+surface=surprofile2(sum_co,'PSOCT',10);
+surface=round(surface-min(surface(:)));
 
-mip=single(surface);
-tiffname=strcat(folder,'surface.tif');
-t = Tiff(tiffname,'w');
-tagstruct.ImageLength     = size(mip,1);
-tagstruct.ImageWidth      = size(mip,2);
-tagstruct.SampleFormat    = Tiff.SampleFormat.IEEEFP;
-tagstruct.Photometric     = Tiff.Photometric.MinIsBlack;
-tagstruct.BitsPerSample   = 32;
-tagstruct.SamplesPerPixel = 1;
-tagstruct.Compression     = Tiff.Compression.None;
-tagstruct.PlanarConfiguration = Tiff.PlanarConfiguration.Chunky;
-tagstruct.Software        = 'MATLAB';
-t.setTag(tagstruct);
-t.write(mip);
-t.close();
+[X Y]=meshgrid(0.1:110);
+[Xv Yv]=meshgrid(0.1:0.0991:109.1);
+Vq=interp2(X,Y,surface,Xv,Yv);
+surface=round(Vq);
+save('surface.mat','surface');
+%%
+% sum_co=FOV_curvature_correction(sum_co, surface, size(sum_co,1), size(sum_co,2), size(sum_co,3));
+% sum_cross=FOV_curvature_correction(sum_cross, surface, size(sum_cross,1), size(sum_cross,2), size(sum_cross,3));
+% save('sum_co.mat','sum_co');
+% save('sum_cross.mat','sum_cross');
+% %% shading
+% shading_co=mean(sum_co(1:200,:,:),1);
+% shading_co=shading_co./max(shading_co(:));
+% save('shading_co.mat','shading_co');
+% shading_cross=mean(sum_cross(1:200,:,:),1);
+% shading_cross=shading_cross./max(shading_cross(:));
+% save('shading_cross.mat','shading_cross');

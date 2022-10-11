@@ -30,29 +30,34 @@
 %%%%%%%%%%%%%%%%%%%%%%%
 
 % specify dataset directory
-datapath  = strcat('/projectnb2/npbssmic/ns/210310_4x4x2cm_milestone/');
+datapath  = '/projectnb/npbssmic/ns/Ann_Mckee_samples_20T/NC_6839//';
+P2path = '/projectnb/npbssmic/ns/Ann_Mckee_samples_20T/NC_6839_2P//';
 % directory that stores distortion corrected 3D tiles. Optional
+addpath('/projectnb/npbssmic/s/Matlab_code/fitting_code');
+addpath('/projectnb/npbssmic/s/Matlab_code/PostProcessing');
 addpath('/projectnb/npbssmic/s/Matlab_code/PSOCT_code');
 addpath('/projectnb/npbssmic/s/Matlab_code/ThorOCT_code');
 addpath('/projectnb/npbssmic/s/Matlab_code');
+nslice=20; % define total number of slices
+njobs=nslice;
 
-nslice=147; % define total number of slices
-
-% the following indented lines are for multi-thread processing
-% on BU SCC only. The purpose here is to divide the data into njobs groups,
-% njobs being the number of threads used. istart and istop are the start and stop tile
-% number for id-th thread.
-%
-% Define your own istart and istop if not running on BU SCC
-% the $SGE-TASK-ID environment variable read in is CHARACTER, need to transfer to number
-id=str2num(id);
-id=id*3-2;
-for islice=id  
-%     id=islice;
-% Stitching 
-    fprintf(strcat('Slice No. ',num2str(islice),' is started.', datestr(now,'DD:HH:MM'),'\n'));
-    ret_vol_stitch_from_AB_no_ds(id,datapath);
-%   Concat_ref_vol(nslice,datapath);
+id=7;%str2num(id);
+for islice=id
+%     fprintf(strcat('Slice No. ',num2str(islice),' is started.', datestr(now,'DD:HH:MM'),'\n'));
+%     BaSiC_shading_and_ref_stitch_PTSD(id,datapath, 50, 44)
+    BaSiC_shading_and_ret_stitch(id,P2path,datapath, 88,70, 160)
+%      BaSiC_shading_and_ref_stitch(islice,P2path,datapath, 256, 62, 45);  % start depth, thickness(pixels): volume recon start depth needs to be configured for each sample
+%     ref_vol_stitch_from_AB(id,datapath, 50, 40);%depth, thickness
+%     Concat_ref_vol(nslice,datapath);
     fprintf(strcat('Slice No. ',num2str(islice),' is stitched.', datestr(now,'DD:HH:MM'),'\n'));
 
+fid=fopen(strcat(datapath,'aip/log',num2str(islice),'.txt'),'w');
+fclose(fid);
+end
+cd(strcat(datapath,'aip/'))
+logfiles=dir(strcat(datapath,'aip/log*.txt')); 
+if length(logfiles)==njobs
+    delete log*.txt
+   Concat_ref_vol(nslice,datapath);
+%    ref_mus(datapath, nslice, nslice*9, 20); % volume intensity correction, comment the mus part if no fitting is generated
 end

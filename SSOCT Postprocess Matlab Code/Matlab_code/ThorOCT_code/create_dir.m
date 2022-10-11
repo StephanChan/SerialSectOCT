@@ -71,4 +71,18 @@ function create_dir(nslice,datapath)
            mkdir(foldername);
         end
     end
+    cd(datapath);
+    if exist('orientation')==7
+        
+    else
+        mkdir orientation
+    end
+    cd(strcat(datapath,'orientation/'));
+    for i=1:nslice
+        foldername=strcat('vol',num2str(i));
+        if exist(foldername)
+        else
+           mkdir(foldername);
+        end
+    end
 end

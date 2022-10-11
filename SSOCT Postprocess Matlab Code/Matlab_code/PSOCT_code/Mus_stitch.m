@@ -1,114 +1,48 @@
-function Mus_stitch(target, datapath,disp,mosaic,pxlsize,islice,pattern,sys)
-%% stitch the fitting result using the coordinates from AIP stitch
+function Mus_stitch(target, P2path, datapath,disp,mosaic,pxlsize,islice,pattern,sys,ds,stitch)
 %% define grid pattern
-
 % add subfunctions for the script
 addpath('/projectnb/npbssmic/s/Matlab_code');
-% displacement parameters
-% xx=92;
-% xy=-4;
-% yy=97;
-% yx=-4;
 result=target;
 id=islice;
+
+xx=disp(1);
+xy=disp(2);
+yy=disp(3);
+yx=disp(4);
 % mosaic parameters
-% numX=5;
-% numY=4;
+numX=mosaic(1);
+numY=mosaic(2);
 Xoverlap=mosaic(3);
-    Yoverlap=mosaic(4);
-    
-    Xsize=pxlsize(1);                                                                              %changed by stephan
-    Ysize=pxlsize(2);
-% 
-% % tile parameters
-
-% 
-% numTile=numX*numY;
-% grid=zeros(2,numTile);
-% pattern='bidirectional';
-% if strcmp(pattern,'unidirectional')
-%     for i=1:numTile
-%         if mod(i,numX)==0
-%             grid(1,i)=(numY-ceil(i/numX))*xx;
-%             grid(2,i)=(numY-ceil(i/numX))*xy;
-%         else
-%             grid(1,i)=(numY-ceil(i/numX))*xx+(numX-(mod(i,numX)+1))*yx;
-%             grid(2,i)=(numY-ceil(i/numX))*xy+(numX-(mod(i,numX)))*yy;
-%         end
-%     end
-% elseif strcmp(pattern,'bidirectional')
-%          for i=1:numTile
-%             % odd lines
-%             if mod(ceil(i/numX),2)==1
-%                 if mod(i,numX)==0
-%                     grid(1,i)=(numX-1)*xx+floor(i/numX)*yx;
-%                     grid(2,i)=-(numX-1)*xy-(floor(i/numX)-1)*yy;
-%                 else
-%                     grid(1,i)=(mod(i,numX)-1)*xx+floor(i/numX)*yx;
-%                     grid(2,i)=-(mod(i,numX)-1)*xy-floor(i/numX)*yy;
-%                 end
-%             else    % even lines 
-%                 if mod(i,numX)==0
-%                     grid(1,i)=floor(i/numX)*yx;
-%                     grid(2,i)=-(floor(i/numX)-1)*yy;
-%                 else
-%                     grid(1,i)=(numX-mod(i,numX))*xx+floor(i/numX)*yx;
-%                     grid(2,i)=-(numX-mod(i,numX))*xy-floor(i/numX)*yy;
-%                 end
-%             end
-%             
-%         end
-% end
-%     grid(2,:)=grid(2,:)-min(grid(2,:));
-% redefine the origin of the grid, choose a non-agarose tile
-% grid(1,:)=grid(1,:)-grid(1,68);
-% grid(2,:)=grid(2,:)-grid(2,68);
-%% generate distorted grid pattern
-
-%% write coordinates to file
+Yoverlap=mosaic(4);
+Xsize=pxlsize(1);                                                                              %changed by stephan
+Ysize=pxlsize(2);
+numTile=numX*numY;
 
 filepath=strcat(datapath,'fitting/vol',num2str(islice),'/');
-% filepath=strcat(datapath,'I41SupFrontal_20170424/');
 cd(filepath);
-% fileID = fopen([filepath 'TileConfiguration.txt'],'w');
-% fprintf(fileID,'# Define the number of dimensions we are working on\n');
-% fprintf(fileID,'dim = 2\n\n');
-% fprintf(fileID,'# Define the image coordinates\n');
-% for j=1:numTile
-%     fprintf(fileID,[num2str(j) '_ub.tif; ; (%d, %d)\n'],round(grid(:,j))); 
-% end
-% fclose(fileID);
-% 
-% %% generate Macro file
-% 
-% pathname=filepath;
-% macropath=[pathname,'Macro.ijm'];
-% 
-% pathname_rev=pathname;
-% 
-% fid_Macro = fopen(macropath, 'w');
-% l=['run("Grid/Collection stitching", "type=[Positions from file] order=[Defined by TileConfiguration] directory=',pathname_rev,' layout_file=TileConfiguration.txt fusion_method=[Linear Blending] regression_threshold=0.02 max/avg_displacement_threshold=1 absolute_displacement_threshold=1 compute_overlap computation_parameters=[Save memory (but be slower)] image_output=[Write to disk] output_directory=',pathname_rev,'");\n'];
-% fprintf(fid_Macro,l);
-% fclose(fid_Macro);
-
-%% execute Macro file
-% tic
-% system(['/projectnb/npbssmic/ns/Fiji/Fiji.app/ImageJ-linux64 --headless -macro ',macropath]);
-% toc
 
 %% get FIJI stitching info
+% use following 3 lines if stitch using OCT coordinates
+if stitch==1
+    coordpath = strcat(datapath,'aip/RGB/');
+    f=strcat(coordpath,'TileConfiguration.registered.txt');
+    coord = read_Fiji_coord(f,'Composite');
+    coord(2:3,:)=coord(2:3,:)./ds;
 
-% filename = filepath;
-% f=strcat(filename,'TileConfiguration.registered.txt');
-f=strcat(datapath,'aip/vol',num2str(id),'/TileConfiguration.registered.txt');
-coord = read_Fiji_coord(f,'aip');
-coord(2:3,:)=coord(2:3,:)./10;
-%% coordinates correction
-% use median corrdinates for all slices
-% coord=squeeze(median(coord,1));
-
+% use following 3 lines if stitch using OCT coordinates -- obsolete
+%     f=strcat(datapath,'aip/vol',num2str(9),'/TileConfiguration.registered.txt');
+%     coord = read_Fiji_coord(f,'aip');
+else
+% use following 3 lines if stitch using 2P coordinates
+    coordpath = strcat(P2path,'aip/RGB/');
+    f=strcat(coordpath,'TileConfiguration.registered.txt');
+    coord = read_Fiji_coord(f,'Composite');
+    coord(2:3,:)=coord(2:3,:).*2/3/ds;
+end
+%          coord(2:3,:)=coord(2:3,:).*2/3; %for samples after 09/17/21
+%     coord(2,:)=coord(2,:).*1.62/3; %for sample 8921 only
+%     coord(3,:)=coord(3,:).*1.82/3; %for sample 8921  only
 %% define coordinates for each tile
-
 Xcen=zeros(size(coord,2),1);
 Ycen=zeros(size(coord,2),1);
 index=coord(1,:);
@@ -131,11 +65,6 @@ Ycen=Ycen+Ysize/2;
 
 % tile range -199~+200
 stepx = Xoverlap*Xsize;
-% due to the 106x106 size of the FOV, the following line has been changed
-% accordingly
-% x = [0:stepx-1 repmat(stepx,1,round((1-2*Xoverlap)*Xsize)) round(stepx-1):-1:0]./stepx;
-% stepy = Yoverlap*Ysize;
-% y = [0:stepy-1 repmat(stepy,1,round((1-2*Yoverlap)*Ysize)) round(stepy-1):-1:0]./stepy;
 x = [0:stepx-1 repmat(stepx,1,round((1-2*Xoverlap)*Xsize)) round(stepx-1):-1:0]./stepx;
 stepy = Yoverlap*Ysize;
 y = [0:stepy-1 repmat(stepy,1,round((1-2*Yoverlap)*Ysize)) round(stepy-1):-1:0]./stepy;
@@ -146,67 +75,169 @@ y = [0:stepy-1 repmat(stepy,1,round((1-2*Yoverlap)*Ysize)) round(stepy-1):-1:0].
     end   
 ramp=rampx.*rampy;      % blending mask
 
+%% flagg mus tiles
+% load(strcat(datapath,'aip/vol',num2str(islice),'/tile_flag.mat'));
+% % tile_flag(1:numX)=0;
+% % tile_flag(end-numX+1:end)=0;
+% % tile_flag(:)=0;
+% tile_flag(1:11)=0;
+% % tile_flag(14:21)=1;
+% % tile_flag(24:32)=1;
+% % tile_flag=ones(1,length(tile_flag)); %% when tile_flag doesn't work
+% filename0=dir('MUS.tif');
+% filename = strcat(filepath,'MUS_flagged.tif');
+% flagged=0;
+% for j=1:numX*numY
+%     if tile_flag(j)>0
+%         mus = single(imread(filename0(1).name, j));
+%         
+%         if flagged==0
+%             t = Tiff(filename,'w');
+%             flagged=1;
+%         else
+%             t = Tiff(filename,'a');
+%         end
+%         tagstruct.ImageLength     = size(mus,1);
+%         tagstruct.ImageWidth      = size(mus,2);
+%         tagstruct.SampleFormat    = Tiff.SampleFormat.IEEEFP;
+%         tagstruct.Photometric     = Tiff.Photometric.MinIsBlack;
+%         tagstruct.BitsPerSample   = 32;
+%         tagstruct.SamplesPerPixel = 1;
+%         tagstruct.Compression     = Tiff.Compression.None;
+%         tagstruct.PlanarConfiguration = Tiff.PlanarConfiguration.Chunky;
+%         tagstruct.Software        = 'MATLAB';
+%         t.setTag(tagstruct);
+%         t.write(mus);
+%         t.close();
+% 
+%     end   
+% end
+% % 
+% % %% BaSiC shading correction
+%     macropath=strcat(datapath,'fitting/vol',num2str(islice),'/BaSiC.ijm');
+%     cor_filename=strcat(datapath,'fitting/vol',num2str(islice),'/','MUS_cor.tif');
+%     fid_Macro = fopen(macropath, 'w');
+%     filename=strcat(datapath,'fitting/vol',num2str(islice),'/','MUS_flagged.tif');
+%     fprintf(fid_Macro,'open("%s");\n',filename);
+%     fprintf(fid_Macro,'run("BaSiC ","processing_stack=MUS_flagged.tif flat-field=None dark-field=None shading_estimation=[Estimate shading profiles] shading_model=[Estimate both flat-field and dark-field] setting_regularisationparametes=Automatic temporal_drift=Ignore correction_options=[Compute shading and correct images] lambda_flat=0.50 lambda_dark=0.50");\n');
+%     fprintf(fid_Macro,'selectWindow("Corrected:MUS_flagged.tif");\n');
+%     fprintf(fid_Macro,'saveAs("Tiff","%s");\n',cor_filename);
+%     fprintf(fid_Macro,'close();\n');
+%     fprintf(fid_Macro,'close();\n');
+%     fprintf(fid_Macro,'close();\n');
+%     fprintf(fid_Macro,'close();\n');
+%     fprintf(fid_Macro,'run("Quit");\n');
+%     fclose(fid_Macro);
+%     try
+%        system(['xvfb-run -a ' '/projectnb/npbssmic/ns/Fiji/Fiji.app/ImageJ-linux64 --run ',macropath]);
+%     % %     system(['/projectnb/npbssmic/ns/Fiji/Fiji.app/ImageJ-linux64 -macro ',macropath]);
+%     catch
+%    end
+    %write uncorrected MUS.tif tiles
+    filename0=strcat(datapath,'fitting/vol',num2str(islice),'/','MUS.tif');
+    filename0=dir(filename0);
+    for iFile=1:numTile
+        this_tile=iFile;
+        mus = double(imread(filename0(1).name, iFile));
+        avgname=strcat(datapath,'fitting/vol',num2str(islice),'/',num2str(this_tile),'.mat');
+        save(avgname,'mus');  
+
+        mus=single(mus);
+        tiffname=strcat(datapath,'fitting/vol',num2str(islice),'/',num2str(this_tile),'_mus.tif');
+        t = Tiff(tiffname,'w');
+        tagstruct.ImageLength     = size(mus,1);
+        tagstruct.ImageWidth      = size(mus,2);
+        tagstruct.SampleFormat    = Tiff.SampleFormat.IEEEFP;
+        tagstruct.Photometric     = Tiff.Photometric.MinIsBlack;
+        tagstruct.BitsPerSample   = 32;
+        tagstruct.SamplesPerPixel = 1;
+        tagstruct.Compression     = Tiff.Compression.None;
+        tagstruct.PlanarConfiguration = Tiff.PlanarConfiguration.Chunky;
+        tagstruct.Software        = 'MATLAB';
+        t.setTag(tagstruct);
+        t.write(mus);
+        t.close();
+
+    end
+%     % shading correciton disabled
+%     try
+%         % write corrected MUS_cor.tif tiles
+%         filename0=strcat(datapath,'fitting/vol',num2str(islice),'/','MUS_cor.tif');
+%         filename0=dir(filename0);
+%         for iFile=1:sum(tile_flag)
+%             for tm=1:numX*numY
+%                 if sum(tile_flag(1:tm))==iFile
+%                     this_tile=tm;
+%                     break
+%                 end
+%             end
+%             mus = double(imread(filename0(1).name, iFile));
+%             avgname=strcat(datapath,'fitting/vol',num2str(islice),'/',num2str(this_tile),'.mat');
+%             save(avgname,'mus');  
+% 
+%             mus=single(mus);
+%             tiffname=strcat(datapath,'fitting/vol',num2str(islice),'/',num2str(this_tile),'_mus.tif');
+%             t = Tiff(tiffname,'w');
+%             tagstruct.ImageLength     = size(mus,1);
+%             tagstruct.ImageWidth      = size(mus,2);
+%             tagstruct.SampleFormat    = Tiff.SampleFormat.IEEEFP;
+%             tagstruct.Photometric     = Tiff.Photometric.MinIsBlack;
+%             tagstruct.BitsPerSample   = 32;
+%             tagstruct.SamplesPerPixel = 1;
+%             tagstruct.Compression     = Tiff.Compression.None;
+%             tagstruct.PlanarConfiguration = Tiff.PlanarConfiguration.Chunky;
+%             tagstruct.Software        = 'MATLAB';
+%             t.setTag(tagstruct);
+%             t.write(mus);
+%             t.close();
+%         end
+%     catch
+%    end
 %% blending & mosaicing
+if(strcmp(datapath,'/projectnb2/npbssmic/ns/Ann_Mckee_samples_20T/NC_8095/'))
+    mus_bg = single(imread(strcat(datapath,'mus_bg.tif'), 1));
+end
+mus_bg=imresize(mus_bg,10/ds);
 
 Mosaic = zeros(round(max(Xcen)+Xsize) ,round(max(Ycen)+Ysize));
-Masque = zeros(size(Mosaic));
-% 
-% cd(filename);    
+Masque = zeros(size(Mosaic)); 
 
 for i=1:length(index)
-        
         in = index(i);
-        
-        % load file and linear blend
-
-%         filename0=dir(strcat(num2str(in),'_ds.mat'));  %for retardance
-        filename0=dir(strcat(target,'-',num2str(islice),'-',num2str(in),'.mat'));
+        filename0=dir(strcat(num2str(in),'.mat'));
+%         filename0=dir(strcat('mus-1-',num2str(in),'.mat'));
         load(filename0.name);
-        
-        row = round(Xcen(in)-Xsize/2+1:Xcen(in)+Xsize/2);                                                 %changed by stephan
+        if(strcmp(datapath,'/projectnb2/npbssmic/ns/Ann_Mckee_samples_20T/NC_8095/'))
+            mus = mus+(1-mus_bg)./(mus+1).*20;
+        end
+        row = round(Xcen(in)-Xsize/2+1:Xcen(in)+Xsize/2);     
         column = round(Ycen(in)-Ysize/2+1:Ycen(in)+Ysize/2);
         Masque2 = zeros(size(Mosaic));
         Masque2(row,column)=ramp;
         Masque(row,column)=Masque(row,column)+Masque2(row,column);
         if strcmp(sys,'PSOCT')
-            
-            Mosaic(row,column)=Mosaic(row,column)+us.*Masque2(row,column); %#################################change us to ub if for mub stitch 
+            Mosaic(row,column)=Mosaic(row,column)+mus.*Masque2(row,column); 
         elseif strcmp(sys,'Thorlabs')
-            Mosaic(row,column)=Mosaic(row,column)+mub'.*Masque2(row,column);%#################################
+            Mosaic(row,column)=Mosaic(row,column)+mus'.*Masque2(row,column);
         end
         
 end
 
 % process the blended image
-
 MosaicFinal=Mosaic./Masque;
-% MosaicFinal=MosaicFinal-min(min(MosaicFinal));
 MosaicFinal(isnan(MosaicFinal))=0;
 % MosaicFinal(MosaicFinal>20)=0;
-    if strcmp(sys,'Thorlabs')
-        MosaicFinal=MosaicFinal';
-    end
-save(strcat(result,'.mat'),'MosaicFinal');
-
-% plot in original scale
-% 
-% figure;
-% imshow(MosaicFinal,'XData', (1:size(MosaicFinal,2))*0.05, 'YData', (1:size(MosaicFinal,1))*0.05);
-% axis on;
-% xlabel('x (mm)')
-% ylabel('y (mm)')
-% title('Scattering coefficient (mm^-^1)')
-% colorbar;caxis([0 10]);
-
-% rescale and save as tiff
-% MosaicFinal = uint16(65535*(mat2gray(MosaicFinal)));      
+if strcmp(sys,'Thorlabs')
+    MosaicFinal=MosaicFinal';
+end
+save(strcat(datapath,'fitting/',result,num2str(islice),'.mat'),'MosaicFinal');
+  
 MosaicFinal = single(MosaicFinal);   
 %     nii=make_nii(MosaicFinal,[],[],64);
 %     cd('C:\Users\jryang\Downloads\');
 %     save_nii(nii,'aip_day3.nii');
 % cd(filepath);
-tiffname=strcat(result,'.tif');
-% imwrite(MosaicFinal,tiffname,'Compression','none');
+tiffname=strcat(datapath,'fitting/',result,num2str(islice),'.tif');
 t = Tiff(tiffname,'w');
 image=MosaicFinal;
 tagstruct.ImageLength     = size(image,1);

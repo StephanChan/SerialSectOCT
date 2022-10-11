@@ -74,7 +74,7 @@ ramp=rampx.*rampy;      % blending mask
 
 %% blending & mosaicing
 
-thickness=50;
+thickness=44;
 
 
 filename = strcat(datapath,'dist_corrected/');
@@ -113,8 +113,8 @@ for nslice=id
         % slice = ReadDat_single(ifilePath, dim); 
         % slice(31:74,:,:) = speckle_reduction(double(slice(31:74,:,:)));
 %         slice = convn(slice,ones(3,3,3)./27,'same');
-        slice = depth_corr(slice,0.0035);
-        slice = slice(66:66+thickness-1,:,:);
+%         slice = depth_corr(slice,0.0035);
+        slice = slice(1:1+thickness-1,:,:);
 
         temp=zeros(thickness,size(slice,2)/4,size(slice,3)/4);
 
@@ -142,11 +142,11 @@ for nslice=id
         end 
     end
 
-    Ref=Mosaic./Masque;
-    Ref(isnan(Ref(:)))=0;
-    Ref=single(Ref);
+    Ret=Mosaic./Masque;
+    Ret(isnan(Ret(:)))=0;
+    Ret=single(Ret);
 
-    save(strcat(datapath,'dist_corrected/volume/ret',num2str(nslice),'.mat'),'Ref','-v7.3');
+    save(strcat(datapath,'dist_corrected/volume/ret',num2str(nslice),'.mat'),'Ret','-v7.3');
     % only for PSOCT0103
     % save(strcat(datapath,'volume/ref',num2str(nslice),'.mat'),'Ref','-v7.3');
 

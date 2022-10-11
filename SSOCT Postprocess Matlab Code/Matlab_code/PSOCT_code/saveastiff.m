@@ -74,8 +74,8 @@ if nargin < 3 % Use default options
     options.color = false;
     options.compress = 'no';
     options.message = true;
-    options.append = false;
-    options.overwrite = false;
+%     options.append = false;
+%     options.overwrite = false;
 end
 if ~isfield(options, 'message'),   options.message   = true; end
 if ~isfield(options, 'append'),    options.append    = false; end

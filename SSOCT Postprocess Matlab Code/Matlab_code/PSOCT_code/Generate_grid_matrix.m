@@ -1,4 +1,4 @@
-folder_grid='E:\200827 replace silver mirror';
+folder_grid='C:\Users\shuaibin\Downloads\20210630\20210630\50umGrid\SingleImage-06302021-1103-003';
 display(strcat('reading- ',  ' grid matrix...'));
 file=strcat(folder_grid,'\raw_transf super fine.txt');
 format longg

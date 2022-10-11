@@ -1,4 +1,4 @@
-function AIP_stitch(datapath,disp,mosaic,pxlsize,islice,pattern,sys)
+function AIP_stitch(P2path, datapath,disp,mosaic,pxlsize,islice,pattern,sys,stitch)
 %%% ---------------------- %%%
 % function version of mosaicing & blending
 % input: displacement parameters: four elements array [xx xy yy yx]
@@ -7,7 +7,7 @@ function AIP_stitch(datapath,disp,mosaic,pxlsize,islice,pattern,sys)
 %        pixel size parameters: two elements array [x pixel size, y pixel size]
 %        slice index: index of slice you wish to perform stitching & blending
 %
-% Author: Jiarui Yang
+% Author: Jiarui Yang, Shuaibin Chang
 % 10/28/19
 %% define parameters
    %displacement parameters
@@ -26,7 +26,6 @@ function AIP_stitch(datapath,disp,mosaic,pxlsize,islice,pattern,sys)
     
     numTile=numX*numY;
     grid=zeros(2,numTile);
-    starti=1;
 
     if strcmp(pattern,'unidirectional')
         for i=starti:numTile
@@ -61,7 +60,7 @@ function AIP_stitch(datapath,disp,mosaic,pxlsize,islice,pattern,sys)
 
 %%          2002/02/10 modified mosaicing pattern
 
-         for i=starti:numTile
+         for i=1:numTile
             % odd lines
             if mod(ceil(i/numX),2)==1
                 if mod(i,numX)==0
@@ -85,59 +84,163 @@ function AIP_stitch(datapath,disp,mosaic,pxlsize,islice,pattern,sys)
             
         end
     end
-    
     grid(2,:)=grid(2,:)-min(grid(2,:));
+    
     %% generate distorted grid pattern& write coordinates to file
-
     filepath=strcat(datapath,'aip/vol',num2str(islice),'/');
     cd(filepath);
     fileID = fopen([filepath 'TileConfiguration.txt'],'w');
     fprintf(fileID,'# Define the number of dimensions we are working on\n');
     fprintf(fileID,'dim = 2\n\n');
     fprintf(fileID,'# Define the image coordinates\n');
-    tile=0;
-    val=zeros(numTile,1);
-    for j=starti:numTile
-        filename0=dir(strcat(num2str(j),'.mat'));       % load AIP to determine whether it is agarose
-%         if isexist(filename0.name)
-%             filename0.name
-            load(filename0.name);
-            val(j)=std2(aip);
-%         end
-        
-    end
-    for j=starti:numTile
-        if val(j)>=0.001     % threshold tunable for agarose blocks, visual examine after done
+    tile_flag=zeros(1,numTile);
+    filename0=dir('AIP.tif');
+    coordpath = strcat(filepath,'AIP_flagged.tif');
+    flagged=0;
+    for j=1:numTile
+        aip = single(imread(filename0(1).name, j));
+        if std(aip(:))>=0.002     % threshold tunable for agarose blocks, visual examine after done
+            tile_flag(j)=1;
             fprintf(fileID,[num2str(j) '_aip.tif; ; (%d, %d)\n'],round(grid(:,j)));
-            tile=tile+1;
+            if flagged==0
+                t = Tiff(coordpath,'w');
+                flagged=1;
+            else
+                t = Tiff(coordpath,'a');
+            end
+            tagstruct.ImageLength     = size(aip,1);
+            tagstruct.ImageWidth      = size(aip,2);
+            tagstruct.SampleFormat    = Tiff.SampleFormat.IEEEFP;
+            tagstruct.Photometric     = Tiff.Photometric.MinIsBlack;
+            tagstruct.BitsPerSample   = 32;
+            tagstruct.SamplesPerPixel = 1;
+            tagstruct.Compression     = Tiff.Compression.None;
+            tagstruct.PlanarConfiguration = Tiff.PlanarConfiguration.Chunky;
+            tagstruct.Software        = 'MATLAB';
+            t.setTag(tagstruct);
+            t.write(aip);
+            t.close();
+
         end   
     end
     fclose(fileID);
+    save('tile_flag.mat','tile_flag');
 
-    %% generate Macro file
+%% BaSiC shading correction
+    macropath=strcat(datapath,'aip/vol',num2str(islice),'/BaSiC.ijm');
+    cor_filename=strcat(datapath,'aip/vol',num2str(islice),'/','AIP_cor.tif');
+    fid_Macro = fopen(macropath, 'w');
+    coordpath=strcat(datapath,'aip/vol',num2str(islice),'/','AIP_flagged.tif');
+    fprintf(fid_Macro,'open("%s");\n',coordpath);
+    fprintf(fid_Macro,'run("BaSiC ","processing_stack=AIP_flagged.tif flat-field=None dark-field=None shading_estimation=[Estimate shading profiles] shading_model=[Estimate both flat-field and dark-field] setting_regularisationparametes=Automatic temporal_drift=Ignore correction_options=[Compute shading and correct images] lambda_flat=0.50 lambda_dark=0.50");\n');
+    fprintf(fid_Macro,'selectWindow("Corrected:AIP_flagged.tif");\n');
+    fprintf(fid_Macro,'saveAs("Tiff","%s");\n',cor_filename);
+    fprintf(fid_Macro,'close();\n');
+    fprintf(fid_Macro,'close();\n');
+    fprintf(fid_Macro,'close();\n');
+    fprintf(fid_Macro,'close();\n');
+    fprintf(fid_Macro,'run("Quit");\n');
+    fclose(fid_Macro);
+    try
+        system(['xvfb-run -a ' '/projectnb/npbssmic/ns/Fiji/Fiji.app/ImageJ-linux64 --run ',macropath]);
+    catch
+        display("BaSiC shading correction failed")
+    end
+    % write uncorrected AIP.tif tiles
+    filename0=strcat(datapath,'aip/vol',num2str(islice),'/','AIP.tif');
+    filename0=dir(filename0);
+    for iFile=1:length(tile_flag)
+        this_tile=iFile;
+        aip = double(imread(filename0(1).name, iFile));
+        avgname=strcat(datapath,'aip/vol',num2str(islice),'/',num2str(this_tile),'.mat');
+        save(avgname,'aip');  
+
+        aip=single(aip);
+        tiffname=strcat(datapath,'aip/vol',num2str(islice),'/',num2str(this_tile),'_aip.tif');
+        t = Tiff(tiffname,'w');
+        tagstruct.ImageLength     = size(aip,1);
+        tagstruct.ImageWidth      = size(aip,2);
+        tagstruct.SampleFormat    = Tiff.SampleFormat.IEEEFP;
+        tagstruct.Photometric     = Tiff.Photometric.MinIsBlack;
+        tagstruct.BitsPerSample   = 32;
+        tagstruct.SamplesPerPixel = 1;
+        tagstruct.Compression     = Tiff.Compression.None;
+        tagstruct.PlanarConfiguration = Tiff.PlanarConfiguration.Chunky;
+        tagstruct.Software        = 'MATLAB';
+        t.setTag(tagstruct);
+        t.write(aip);
+        t.close();
+    end
+    
+    try
+        % wirte shading corrected AIP_cor.tif tiles
+        filename0=strcat(datapath,'aip/vol',num2str(islice),'/','AIP_cor.tif');
+        filename0=dir(filename0);
+        for iFile=1:sum(tile_flag)
+            for tm=1:numTile
+                if sum(tile_flag(1:tm))==iFile
+                    this_tile=tm;
+                    break
+                end
+            end
+            aip = double(imread(filename0(1).name, iFile));
+            avgname=strcat(datapath,'aip/vol',num2str(islice),'/',num2str(this_tile),'.mat');
+            save(avgname,'aip');  
+
+            aip=single(aip);
+            tiffname=strcat(datapath,'aip/vol',num2str(islice),'/',num2str(this_tile),'_aip.tif');
+            t = Tiff(tiffname,'w');
+            tagstruct.ImageLength     = size(aip,1);
+            tagstruct.ImageWidth      = size(aip,2);
+            tagstruct.SampleFormat    = Tiff.SampleFormat.IEEEFP;
+            tagstruct.Photometric     = Tiff.Photometric.MinIsBlack;
+            tagstruct.BitsPerSample   = 32;
+            tagstruct.SamplesPerPixel = 1;
+            tagstruct.Compression     = Tiff.Compression.None;
+            tagstruct.PlanarConfiguration = Tiff.PlanarConfiguration.Chunky;
+            tagstruct.Software        = 'MATLAB';
+            t.setTag(tagstruct);
+            t.write(aip);
+            t.close();
+        end
+    catch
+    end
+    %% generate Macro file for stitching, unused
     macropath=[filepath,'Macro.ijm'];
     filepath_rev=strcat(datapath,'aip/');
-
     fid_Macro = fopen(macropath, 'w');
-
-    l=['run("Grid/Collection stitching", "type=[Positions from file] order=[Defined by TileConfiguration] directory=',filepath_rev,'vol',num2str(islice),' layout_file=TileConfiguration.txt fusion_method=[Linear Blending] regression_threshold=0.02 max/avg_displacement_threshold=1 absolute_displacement_threshold=1 compute_overlap computation_parameters=[Save memory (but be slower)] image_output=[Write to disk] output_directory=',filepath_rev,'vol',num2str(islice),'");\n'];
+    l=['run("Grid/Collection stitching", "type=[Positions from file] order=[Defined by TileConfiguration] directory=',filepath_rev,'vol',num2str(islice),' layout_file=TileConfiguration.txt fusion_method=[Linear Blending] regression_threshold=0.02 max/avg_displacement_threshold=1000 absolute_displacement_threshold=1000 compute_overlap computation_parameters=[Save memory (but be slower)] image_output=[Write to disk] output_directory=',filepath_rev,'vol',num2str(islice),'");\n'];
     fprintf(fid_Macro,l);
-
+    fprintf(fid_Macro,'run("Quit");\n');
     fclose(fid_Macro);
 
     %% execute Macro file
-    tic
-    system(['/projectnb/npbssmic/ns/Fiji/Fiji.app/ImageJ-linux64 --headless -macro ',macropath]);
-    toc
+%     tic
+% % % %     system(['/projectnb/npbssmic/ns/Fiji/Fiji.app/ImageJ-linux64 --headless -macro ',macropath]);
+%     toc
 
     %% get FIJI stitching info
+    % use following 3 lines if stitch using OCT coordinates
+    if stitch==1
+        coordpath = strcat(datapath,'aip/RGB/');
+        f=strcat(coordpath,'TileConfiguration.registered.txt');
+        coord = read_Fiji_coord(f,'Composite');
     
-    filename = strcat(datapath,'aip/vol',num2str(islice),'/');
-    f=strcat(filepath,'TileConfiguration.registered.txt');
-    coord = read_Fiji_coord(f,'aip');
+    % use following 3 lines if stitch using OCT coordinates -- obsolete
+%     f=strcat(datapath,'aip/vol',num2str(9),'/TileConfiguration.registered.txt');
+%     coord = read_Fiji_coord(f,'aip');
+    else
+    % use following 3 lines if stitch using 2P coordinates
+        coordpath = strcat(P2path,'aip/RGB/');
+        f=strcat(coordpath,'TileConfiguration.registered.txt');
+        coord = read_Fiji_coord(f,'Composite');
+        coord(2:3,:)=coord(2:3,:).*2/3;
+    end
+%          coord(2:3,:)=coord(2:3,:).*2/3; %for samples after 09/17/21
+%     coord(2,:)=coord(2,:).*1.62/3; %for sample 8921 only
+%     coord(3,:)=coord(3,:).*1.82/3; %for sample 8921  only
 
     % define coordinates for each tile
-
     Xcen=zeros(size(coord,2),1);
     Ycen=zeros(size(coord,2),1);
     index=coord(1,:);
@@ -169,42 +272,31 @@ function AIP_stitch(datapath,disp,mosaic,pxlsize,islice,pattern,sys)
         [rampy,rampx]=meshgrid(x, y);
     end   
     ramp=rampy.*rampx;      % blending mask
-    %size(ramp)                                                                                           %changed by stephan
-    %size(aip)
-    % blending & mosaicing
   
     Mosaic = zeros(max(Xcen)+Xsize ,max(Ycen)+Ysize);
     Masque = zeros(size(Mosaic));
 
-    cd(filename);    
+    cd(filepath);    
 
     for i=1:length(index)
-
         in = index(i);
-
         % load file and linear blend
-
         filename0=dir(strcat(num2str(in),'.mat'));
         load(filename0.name);
-
+        if std2(aip)<0.002
+            aip=zeros(size(aip));
+        end
         row = round(Xcen(in)-Xsize/2+1:Xcen(in)+Xsize/2);                                                 %changed by stephan
         column = round(Ycen(in)-Ysize/2+1:Ycen(in)+Ysize/2);
-        %size(row)
-        %size(column)
         
-        Masque2 = zeros(size(Mosaic));
-        %size(Masque2(row,column))
-        Masque2(row,column)=ramp;
-        Masque(row,column)=Masque(row,column)+Masque2(row,column);
+        Masque(row,column)=Masque(row,column)+ramp;
         if strcmp(sys,'PSOCT')
-            Mosaic(row,column)=Mosaic(row,column)+aip.*Masque2(row,column);
+            Mosaic(row,column)=Mosaic(row,column)+aip.*ramp;
         elseif strcmp(sys,'Thorlabs')
-            Mosaic(row,column)=Mosaic(row,column)+aip'.*Masque2(row,column);
+            Mosaic(row,column)=Mosaic(row,column)+aip'.*ramp;
         end
     end
-
     % process the blended image
-
     MosaicFinal=Mosaic./Masque;
     MosaicFinal=MosaicFinal-min(min(MosaicFinal));
     MosaicFinal(isnan(MosaicFinal))=0;
@@ -212,16 +304,17 @@ function AIP_stitch(datapath,disp,mosaic,pxlsize,islice,pattern,sys)
         MosaicFinal=MosaicFinal';
     end
     
+aip=MosaicFinal;
+save(strcat(datapath,'aip/aip',num2str(islice),'.mat'),'aip');
     %% save as nifti or tiff    
 %          nii=make_nii(MosaicFinal,[],[],64);
 %          cd('C:\Users\jryang\Downloads\');
 %          save_nii(nii,'aip_vol7.nii');
 %     MosaicFinal = uint16(65535*(mat2gray(MosaicFinal)));    
-    tiffname='aip.tif';
+    tiffname=strcat(datapath,'aip/','aip',num2str(islice),'.tif');
 %     imwrite(MosaicFinal,tiffname,'Compression','none');
     t = Tiff(tiffname,'w');
     image=single(MosaicFinal);
-    save('aip.mat','image');
     tagstruct.ImageLength     = size(image,1);
     tagstruct.ImageWidth      = size(image,2);
     tagstruct.SampleFormat    = Tiff.SampleFormat.IEEEFP;
